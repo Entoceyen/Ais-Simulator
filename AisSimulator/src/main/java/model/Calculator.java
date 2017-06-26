@@ -109,7 +109,7 @@ public class Calculator
 	 * @param lon1
 	 * @param lat2
 	 * @param lon2
-	 * @return
+	 * @return int
 	 */
 	protected static int bearing(double lat1, double lon1, double lat2, double lon2) {
 		double φ1 = Math.toRadians(lat1), φ2 = Math.toRadians(lat2);

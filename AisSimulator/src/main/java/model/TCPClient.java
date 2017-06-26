@@ -13,10 +13,10 @@ public class TCPClient {
 	
 	public static void sendMessage(String[] lines) throws UnknownHostException, IOException {
 		Socket clientSocket = new Socket(address, port);
-		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		for(String line : lines) outToServer.writeBytes(line + '\n');
+		PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
+		for(String line : lines) pw.print(line);
 		clientSocket.close();
-		outToServer.close();
+		pw.close();
 	}
 	
 	/**
