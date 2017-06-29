@@ -3,7 +3,7 @@ package model;
 /**
  * Modèle correspondant à la référence pour la position
  */
-public class PositionReference {
+public class PositionReference implements Cloneable {
 	
 	/**
 	 * Distance de la proue (en metre)
@@ -55,6 +55,15 @@ public class PositionReference {
 	
 	public void setDimStarboard(int dimStarboard) {
 		this.dimStarboard = dimStarboard;
+	}
+	
+	@Override
+	public PositionReference clone() {
+		PositionReference posRef = null;
+		try {
+			posRef = (PositionReference) super.clone();
+		} catch (CloneNotSupportedException e) {}
+		return  posRef;
 	}
 
 	@Override

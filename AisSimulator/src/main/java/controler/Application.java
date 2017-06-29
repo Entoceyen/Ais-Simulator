@@ -3,6 +3,9 @@ package controler;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.JPanel;
@@ -97,6 +100,9 @@ public class Application {
 	 * @param args
 	 */
 	public static void main(String args[]) {
+		try {
+			System.setOut(new PrintStream(new File("outputLog.log")));
+		} catch (FileNotFoundException e) {}
 		new Application();
 	}
 }

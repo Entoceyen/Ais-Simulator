@@ -184,13 +184,14 @@ public class DataLoadListener extends DataManager implements ActionListener {
 		dynData.setRaim(0);
 		
 		Calendar c = panel.getDateTime();
-		if(c != null) simulation.setStartTime(c);
 		
-		simulation.setDynamicData(dynData);
-		simulation.setStaticData(staticData);
-		simulation.computeDistance();
+		simulation.init(staticData, dynData, c);
+				
+		for(int i=0;i<simulation.getSize();i++) {
+			System.out.println(i+" "+simulation.getInstant(i));
+		}
 		
-		System.out.println(simulation);
+		System.out.println(simulation.getSize()+"\n"+simulation);
 	}
 	
 	/**

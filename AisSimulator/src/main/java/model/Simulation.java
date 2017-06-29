@@ -26,8 +26,22 @@ public class Simulation {
 	 * Calcule tout les instants à partir du numéro n
 	 * @param n : instant n 
 	 */
+	/*public void compute(int n) {
+		System.out.println(n);
+		InstantSimulation instant = getInstant(n);
+		InstantSimulation instantNext = instant.computeNext();
+		instants.add(instantNext);
+		System.out.println(instantNext.isEnd());
+		if(!instantNext.isEnd()) compute(n+1);
+	}*/
 	public void compute(int n) {
-		// TODO
+		InstantSimulation instantNext;
+		do {
+			InstantSimulation instant = getInstant(n);
+			instantNext = instant.computeNext();
+			instants.add(instantNext);
+			n++;
+		} while(!instantNext.isEnd());
 	}
 
 	public void setPath(Path path) {
@@ -38,8 +52,24 @@ public class Simulation {
 		return path;
 	}
 
+	public void addInstant(InstantSimulation instant) {
+		instants.add(instant);
+	}
+	
 	public InstantSimulation getInstant(int instant) {
-		return instants.get(instant);
+		try {
+			return instants.get(instant);
+		} catch(IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * Retourne le nombre totale d'instant
+	 * @return
+	 */
+	public int getSize() {
+		return instants.size();
 	}
 	
 	/**
@@ -99,6 +129,74 @@ public class Simulation {
 		this.staticData = staticData;
 	}
 	
+	/**
+	 * Initialise et calcule la simulation avec les données du formulaire 
+	 * @param sd StaticData
+	 * @param dd DynamicData
+	 * @param c Calendar moment de départ
+	 */
+	public void init(StaticData sd, DynamicData dd, Calendar c) {
+		setDynamicData(dd);
+		setStaticData(sd);
+		if(c != null) setStartTime(c);
+		computeDistance();
+		initFirstInstant();
+		compute(0);
+	}
+	
+	/**
+	 * Calcule le 1er InstantSimulation
+	 */
+	private void initFirstInstant() {
+		InstantSimulation instant0 = new InstantSimulation();
+		instant0.setDynamicData(dynData);
+		instant0.setStaticData(staticData);
+		instant0.computeNextStepRadius();
+		instant0.setSimulation(this);
+		addInstant(instant0);
+	}
+	
+	/**
+	 * Indique pour un instant à la position (seconde) id si la route change
+	 * @param id seconde relative à la simulation correspondant à un InstantSimulation
+	 * @param instant InstantSimulation
+	 * @return true si la route/cap change, falsee sinon
+	 */
+	protected boolean isRouteChange(int id, InstantSimulation instant) {
+		int average = 0;
+		for(int i=id-1 ; i>id-31 ; i--)
+			average += getInstant(i) != null ? getInstant(i).getDynamicData().getTrueHeading():getInstant(0).getDynamicData().getTrueHeading();
+		average /= 30;
+		if(Math.abs(instant.getDynamicData().getTrueHeading()-average) > 5) return true;
+		else return false;
+	}
+	
+	/**
+	 * Calcule pour un instant à la position (seconde) id le ROTsensor
+	 * @param id seconde relative à la simulation correspondant à un InstantSimulation
+	 * @param instant InstantSimulation
+	 * @return int de -708 à 708°
+	 */
+	protected int computeROTsensor(int id, InstantSimulation instant) {
+		//TODO 
+		int ROTsensor = 0;
+		for(int i=id ; i>id-61 ; i--) {
+			if(getInstant(i) == null) continue;
+			int diff = getInstant(i).getDynamicData().getTrueHeading() - getInstant(i-1).getDynamicData().getTrueHeading();
+			if((getInstant(i).getDynamicData().getTrueHeading() < 270 
+				&& getInstant(i).getDynamicData().getTrueHeading() <= 359
+				&& getInstant(i-1).getDynamicData().getTrueHeading() <= 0
+				&& getInstant(i-1).getDynamicData().getTrueHeading() < 90)
+				|| (getInstant(i-1).getDynamicData().getTrueHeading() < 270 
+				&& getInstant(i-1).getDynamicData().getTrueHeading() <= 359
+				&& getInstant(i).getDynamicData().getTrueHeading() <= 0
+				&& getInstant(i).getDynamicData().getTrueHeading() < 90))
+				ROTsensor += (360-Math.abs(diff))*-(diff/diff);
+			else ROTsensor += diff;
+		}
+		return ROTsensor;
+	}
+	
 	public String toString() {
 		return "Simulation [\n"+dynData.toString()+",\n"
 			 + "\t"+staticData.toString()+",\n"
@@ -107,6 +205,4 @@ public class Simulation {
 	 		 + "\tETA ["+ETA+"],\n"
 	 		 + "\tstartTime ["+startTime+"]\n]";
 	}
-	
-	
 }

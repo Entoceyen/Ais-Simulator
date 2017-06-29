@@ -6,7 +6,7 @@ import model.datavessel.SpecialManIndicator;
 /**
  * Modèle concernant l'ensemble des données dynamique pour les messages AIS 1 et 5
  */
-public class DynamicData {
+public class DynamicData implements Cloneable {
 
 	private NavigationalStatus navStat;
 
@@ -132,6 +132,16 @@ public class DynamicData {
 
 	public void setRaim(int raim) {
 		this.raim = raim;
+	}
+	
+	@Override
+	public DynamicData clone() {
+		DynamicData dynData = null;
+		try {
+			dynData = (DynamicData) super.clone();
+		} catch (CloneNotSupportedException e) {}
+		dynData.position = position.clone();
+		return dynData;
 	}
 
 	@Override

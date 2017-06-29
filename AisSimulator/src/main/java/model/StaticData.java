@@ -7,7 +7,7 @@ import model.datavessel.PositionFixType;
 /**
  * Modèle concernant l'ensemble des données statique pour les messages AIS 1 et 5
  */
-public class StaticData {
+public class StaticData implements Cloneable {
 
 	/**
      * Identifiant du navire
@@ -161,6 +161,17 @@ public class StaticData {
 		this.destination = destination;
 	}
 
+	@Override
+	public StaticData clone() {
+		StaticData staticData = null;
+		try {
+			staticData = (StaticData) super.clone();
+		} catch (CloneNotSupportedException e) {}
+		staticData.posRef = posRef.clone();
+		staticData.shipType = new ShipTypeCargo(shipType.getCode());
+		return staticData;
+	}
+	
 	@Override
 	public String toString() {
 		return "StaticData [mmsi=" + mmsi + ", name=" + name + ", imo=" + imo + ", callSign=" + callSign
