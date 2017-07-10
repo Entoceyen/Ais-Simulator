@@ -43,17 +43,29 @@ public class InstantSimulation implements Cloneable {
 	public boolean isEnd() {
 		return end;
 	}
+	public void setEnd(boolean b) {
+		end = b;
+	}
 	
 	public boolean isCut() {
 		return cut;
+	}
+	public void setCut(boolean b) {
+		cut = b;
 	}
 
 	public boolean isSendable() {
 		return sendable;
 	}
+	public void setSendable(boolean b) {
+		sendable = b;
+	}
 
 	public boolean isVesselSameID() {
 		return vesselSameID;
+	}
+	public void setVesselSameID(boolean b) {
+		vesselSameID = b;
 	}
 	
 	public boolean isChangeRoute() {

@@ -1,6 +1,9 @@
 package view;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -44,7 +47,13 @@ public class PopupManager {
 		saver.setSelectedFile(file);
 		int res = saver.showSaveDialog(null);
 		 
-		if (res == JFileChooser.APPROVE_OPTION) { 
+		if (res == JFileChooser.APPROVE_OPTION) {
+			File newFile = new File(saver.getCurrentDirectory().getAbsolutePath()+"/"+file.getName());
+			try {
+				Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				return false;
+			}
 			return true;
 		}
 		return false;

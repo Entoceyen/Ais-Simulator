@@ -5,6 +5,8 @@ import java.util.Calendar;
 
 import dk.dma.ais.message.AisPosition;
 import model.Calculator;
+import model.aismessages.AisStream;
+import model.scenario.Scenario;
 
 public class Simulation {
 	
@@ -12,6 +14,8 @@ public class Simulation {
 	private StaticData staticData;
 	
 	private ArrayList<InstantSimulation> instants;
+	private ArrayList<Scenario> scenarios;
+	private AisStream aisStream;
 	
 	private Path path;
 	private double distance;
@@ -20,20 +24,13 @@ public class Simulation {
 	
 	public Simulation() {
 		instants = new ArrayList<InstantSimulation>();
+		scenarios = new ArrayList<Scenario>();
 	}
 	
 	/**
 	 * Calcule tout les instants à partir du numéro n
 	 * @param n : instant n 
 	 */
-	/*public void compute(int n) {
-		System.out.println(n);
-		InstantSimulation instant = getInstant(n);
-		InstantSimulation instantNext = instant.computeNext();
-		instants.add(instantNext);
-		System.out.println(instantNext.isEnd());
-		if(!instantNext.isEnd()) compute(n+1);
-	}*/
 	public void compute(int n) {
 		InstantSimulation instantNext;
 		do {
@@ -70,6 +67,14 @@ public class Simulation {
 	 */
 	public int getSize() {
 		return instants.size();
+	}
+	
+	public Scenario getScenario(int i) {
+		return scenarios.get(i);
+	}
+	
+	public void addScenario(Scenario scenario) {
+		scenarios.add(scenario);
 	}
 	
 	/**
@@ -129,6 +134,14 @@ public class Simulation {
 		this.staticData = staticData;
 	}
 	
+	public AisStream getAisStream() {
+		return aisStream;
+	}
+	
+	public void setAisStream(AisStream stream) {
+		aisStream = stream;
+	}
+	
 	/**
 	 * Initialise et calcule la simulation avec les données du formulaire 
 	 * @param sd StaticData
@@ -178,7 +191,6 @@ public class Simulation {
 	 * @return int de -708 à 708°
 	 */
 	protected int computeROTsensor(int id, InstantSimulation instant) {
-		//TODO 
 		int ROTsensor = 0;
 		for(int i=id ; i>id-61 ; i--) {
 			if(getInstant(i) == null) continue;
@@ -194,9 +206,44 @@ public class Simulation {
 				ROTsensor += (360-Math.abs(diff))*-(diff/diff);
 			else ROTsensor += diff;
 		}
+		if(Math.abs(ROTsensor) > 708) ROTsensor = (int) (708*Math.signum(ROTsensor));
 		return ROTsensor;
 	}
 	
+	/**
+	 * Fonction retournant la valeur (long) ETA, encodée (voir ci-dessous), à partir des valeurs "lisible"
+	 * Bits 19-16: mois; 1-12; 0 = non disponible = par défaut 
+	 * Bits 15-11: jour; 1-31; 0 = non disponible = par défaut 
+	 * Bits 10-6: heure; 0-23; 24 = non disponible = par défaut 
+	 * Bits 5-0: minute; 0-59; 60 = non disponible = par défaut
+	 * @return long
+	 */
+	public long etaEncoder() {
+		Calendar c = startTime;
+		c.add(Calendar.SECOND, getSize());
+		String binMin = Integer.toBinaryString(c.get(Calendar.MINUTE));
+		String binHour = Integer.toBinaryString(c.get(Calendar.HOUR_OF_DAY));
+		String binDay = Integer.toBinaryString(c.get(Calendar.DAY_OF_MONTH));
+		String binMonth = Integer.toBinaryString(c.get(Calendar.MONTH)+1);
+		
+		int nb0 = 0;
+		if(binMin.length() != 6) {
+			nb0 = 6-binMin.length();
+			for(int i=0 ; i<nb0; i++) binMin = "0"+binMin;
+		}
+		if(binHour.length() != 5) {
+			nb0 = 5-binHour.length();
+			for(int i=0 ; i<nb0; i++) binHour = "0"+binHour;
+		}
+		if(binDay.length() != 5) {
+			nb0 = 5-binDay.length();
+			for(int i=0 ; i<nb0; i++) binDay = "0"+binDay;
+		}
+		String binEta = binMonth + binDay + binHour + binMin;
+		long eta = Long.parseLong(binEta, 2);
+		return eta;
+	}
+		
 	public String toString() {
 		return "Simulation [\n"+dynData.toString()+",\n"
 			 + "\t"+staticData.toString()+",\n"

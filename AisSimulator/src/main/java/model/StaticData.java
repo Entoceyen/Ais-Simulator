@@ -173,6 +173,23 @@ public class StaticData implements Cloneable {
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		StaticData data = (StaticData) obj;
+		if(data.mmsi != mmsi) return false;
+		if(!data.name.equals(name)) return false;
+		if(!data.callSign.equals(callSign)) return false;
+		if(data.imo != imo) return false;
+		if(!data.destination.equals(destination)) return false;
+		if(data.draught != draught) return false;
+		if(data.dte != dte) return false;
+		if(!data.aisVersion.equals(aisVersion)) return false;
+		if(!data.posRef.equals(posRef)) return false;
+		if(!data.posType.equals(posType)) return false;
+		if(data.shipType.getCode() != shipType.getCode()) return false;
+		return true;
+	}
+	
+	@Override
 	public String toString() {
 		return "StaticData [mmsi=" + mmsi + ", name=" + name + ", imo=" + imo + ", callSign=" + callSign
 				+ ", aisVersion=" + aisVersion + ", shipType=" + shipType + ", posRef=" + posRef + ", posType="

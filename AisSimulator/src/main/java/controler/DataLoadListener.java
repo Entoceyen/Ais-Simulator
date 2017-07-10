@@ -25,6 +25,8 @@ import view.PopupManager;
  */
 public class DataLoadListener extends DataManager implements ActionListener {
 	
+	private TimedSimulationListener timedSimuListener;
+	
 	public DataLoadListener(Simulation simulation) {
 		super(simulation);
 	}
@@ -186,6 +188,7 @@ public class DataLoadListener extends DataManager implements ActionListener {
 		Calendar c = panel.getDateTime();
 		
 		simulation.init(staticData, dynData, c);
+		timedSimuListener.setDuration(simulation.getSize());
 				
 		for(int i=0;i<simulation.getSize();i++) {
 			System.out.println(i+" "+simulation.getInstant(i));
@@ -202,6 +205,10 @@ public class DataLoadListener extends DataManager implements ActionListener {
 	 */
 	private String incorrectValue(String name, String value) {
 		return "La valeur '"+value+"' est incorrecte pour le champ '"+name+"'\n";
+	}
+
+	public void setTimedSimulationListener(TimedSimulationListener timedSimuListener) {
+		this.timedSimuListener = timedSimuListener;
 	}
 
 }

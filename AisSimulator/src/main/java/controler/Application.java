@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.JPanel;
 
@@ -44,6 +45,22 @@ public class Application {
 		
 		FormPanel formPanel = new FormPanel(dataPanel, pathPanel);
 		
+		TimedSimulationListener timedSimuListener = new TimedSimulationListener(simulation);
+		TimedSimulationPanel timedSimuPanel = new TimedSimulationPanel(timedSimuListener);
+		timedSimuListener.setPanel(timedSimuPanel);
+		loadListener.setTimedSimulationListener(timedSimuListener);
+		
+		ScenariosListener scenariosListener = new ScenariosListener(simulation);
+		ScenariosFormListener scenariosFormListener = new ScenariosFormListener(simulation);
+		ScenariosPanel scenariosPanel = new ScenariosPanel(scenariosListener);
+		ScenarioFormFrame scenarioForm = new ScenarioFormFrame(scenariosFormListener);
+		scenariosListener.setPanel(scenariosPanel);
+		scenariosListener.setScenarioFrame(scenarioForm);
+		
+		AisStreamListener aisListener = new AisStreamListener(simulation);
+		AisPanel aisPanel = new AisPanel(aisListener);
+		aisListener.setPanel(aisPanel);
+				
 		OptionsListener optionsListener = new OptionsListener();
 		OptionsPanel optionsPanel = new OptionsPanel(optionsListener);
 		optionsListener.setPanel(optionsPanel);
@@ -54,7 +71,8 @@ public class Application {
 		
 		optionsFrame = new OptionsFrame(optionsPanel, tcpPanel, this);
 		optionsListener.setFrame(optionsFrame);
-		applicationFrame = new ApplicationFrame(formPanel, this);
+		tcpListener.setFrame(optionsFrame);
+		applicationFrame = new ApplicationFrame(formPanel, timedSimuPanel, scenariosPanel, aisPanel, this);
 		setFont(font.getSize());
 		optionsPanel.setFontSize();
 	}
@@ -78,8 +96,8 @@ public class Application {
 	public static void changeFont(Component component, Font font) {
 	    component.setFont(font);
 	    if(component instanceof JPanel) {
-	    	TitledBorder b = ((TitledBorder) ((JPanel)component).getBorder());
-	    	if(b != null) b.setTitleFont(new Font("Tahoma",Font.BOLD,font.getSize()));
+	    	Border b = ((Border) ((JPanel)component).getBorder());
+	    	if(b != null && b instanceof TitledBorder) ((TitledBorder)b).setTitleFont(new Font("Tahoma",Font.BOLD,font.getSize()));
 	    }
 		component.revalidate();
 	    if(component instanceof Container)

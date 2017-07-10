@@ -11,11 +11,20 @@ public class Path {
 	 * Suite de point de coordonnées ordonnées
 	 */
 	private ArrayList<Coordinate> steps;
+	private String name;
 
     public Path() {
     	steps = new ArrayList<Coordinate>();
     }
 
+    public String getName() {
+    	return name;
+    }
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
+    
     /**
      * Ajoute un point de coordonnées étape
      * @param c : Coordinate

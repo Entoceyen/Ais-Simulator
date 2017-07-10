@@ -95,18 +95,18 @@ public class DateTimePanel extends JPanel {
 		} catch(NumberFormatException e) {
 			return new int[]{-1,-1,-1};
 		}
-		
 	}
 	
 	/**
 	 * Active ou désactive la vue
 	 * @param b : boolean
 	 */
-	private void setActive(boolean b) {
+	protected void setActive(boolean b) {
 		datePicker.setEnabled(b);
 		txtFieldHour.setEnabled(b);
 		txtFieldMin.setEnabled(b);
 		txtFieldSec.setEnabled(b);
+		//chbxTimestamp.setEnabled(b);
 	}
 
 }

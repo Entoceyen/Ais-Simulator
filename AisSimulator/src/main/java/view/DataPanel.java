@@ -235,6 +235,7 @@ public class DataPanel extends JPanel {
 	 * Desactive la modification de la vue
 	 */
 	public void disable() {
+		dateTimePanel.setActive(false);
 		for(Component c : getComponents()) c.setEnabled(false);
 	}
 	
@@ -242,6 +243,7 @@ public class DataPanel extends JPanel {
 	 * Active la modification de la vue
 	 */
 	public void enable() {
+		dateTimePanel.setActive(false);
 		for(Component c : getComponents()) c.setEnabled(true);
 	}
 	

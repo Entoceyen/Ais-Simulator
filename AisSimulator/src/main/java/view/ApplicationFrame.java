@@ -25,11 +25,14 @@ public class ApplicationFrame extends JFrame {
 	private Application application;
 	private JMenuBar menuBar;
 	
-	public ApplicationFrame(FormPanel formPanel, Application appli) {
+	public ApplicationFrame(FormPanel formPanel, TimedSimulationPanel timedSimuPanel, ScenariosPanel scenarPanel, AisPanel aisPanel, Application appli) {
 		this.application = appli;
 		setTitle("Simulateur AIS");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(formPanel, BorderLayout.WEST);
+		getContentPane().add(timedSimuPanel, BorderLayout.SOUTH);
+		getContentPane().add(scenarPanel, BorderLayout.CENTER);
+		getContentPane().add(aisPanel, BorderLayout.EAST);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = screenSize.width;

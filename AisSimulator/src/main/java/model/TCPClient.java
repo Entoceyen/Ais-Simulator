@@ -11,10 +11,14 @@ public class TCPClient {
 	private static String address;
 	private static int port;
 	
-	public static void sendMessage(String[] lines) throws UnknownHostException, IOException {
+	public static void sendMessage(String line) throws UnknownHostException, IOException {
 		Socket clientSocket = new Socket(address, port);
+		// connexion transpondeur
 		PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
-		for(String line : lines) pw.print(line);
+		pw.print(line);
+		// connexion hercules
+		OutputStream os = clientSocket.getOutputStream();
+		os.write(line.getBytes());
 		clientSocket.close();
 		pw.close();
 	}

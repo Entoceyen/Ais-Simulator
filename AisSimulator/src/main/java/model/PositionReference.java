@@ -67,6 +67,16 @@ public class PositionReference implements Cloneable {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		PositionReference posRef = (PositionReference) obj;
+		if(dimBow != posRef.dimBow) return false;
+		if(dimPort != posRef.dimPort) return false;
+		if(dimStarboard != posRef.dimStarboard) return false;
+		if(dimStern != posRef.dimStern) return false;
+		return true;
+	}
+	
+	@Override
 	public String toString() {
 		return "PositionReference [dimBow=" + dimBow + ", dimStern=" + dimStern + ", dimPort=" + dimPort
 				+ ", dimStarboard=" + dimStarboard + "]";

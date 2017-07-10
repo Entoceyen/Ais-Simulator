@@ -15,6 +15,7 @@ public abstract class PathIO {
 	
 	public static Path readPath(File f) throws Exception {
 		Path path = new Path();
+		path.setName(f.getName());
 		FileInputStream fis = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 	 
