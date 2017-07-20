@@ -4,11 +4,15 @@ import dk.dma.ais.message.AisMessage1;
 import dk.dma.ais.message.AisMessageException;
 import model.DynamicData;
 
+/**
+ * ModÃ¨le gÃ©rant la crÃ©ation de message AIS de type 1
+ */
 public abstract class AisMessage1Creator {
 
 	/**
-	 * Fonction permettant créer un message AisMessage1 à partir des données passées en paramètres
-	 * @param data : Liste des données du message <nomduchamp,donnée>
+	 * Fonction permettant de crÃ©er un message AisMessage1 Ã  partir des donnÃ©es dynamiques
+	 * @param dynData DynamicData 
+	 * @param utcSec int seconde utc pour le message
 	 * @return Un objet de la classe AisMessage1 (AisLib)
 	 * @throws AisMessageException
 	 */

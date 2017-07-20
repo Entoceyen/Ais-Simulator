@@ -14,7 +14,7 @@ import model.io.DataIO;
 import view.PopupManager;
 
 /**
- * Controleur listener permettant d'exporter les donnÈes saisies dans le formulaire sour forme d'un ficher csv
+ * Contr√¥leur listener permettant d'exporter les donn√©es saisies dans le formulaire sour forme d'un ficher csv
  */
 public class DataExportListener extends DataManager implements ActionListener {
 
@@ -105,11 +105,11 @@ public class DataExportListener extends DataManager implements ActionListener {
 		try {
 			f = DataIO.writeDatas(data);
 		} catch (Exception e1) {
-			PopupManager.errorMessage("Lecture du fichier", "Une erreur lors de l'Èciture du fichier est survenue.\n"+e1.getMessage());
+			PopupManager.errorMessage("Lecture du fichier", "Une erreur lors de l'√©citure du fichier est survenue.\n"+e1.getMessage());
 			return;
 		}
 		if(panel.saveDataFile(f))
-			PopupManager.infoMessage("Exportation", "Le fichier a ÈtÈ exportÈ avec succËs.");
+			PopupManager.infoMessage("Exportation", "Le fichier a √©t√© export√© avec succ√®s.");
 		else
 			PopupManager.errorMessage("Exportation", "Une erreur est survenue lors de l'exportation du fichier.");
 	}

@@ -13,7 +13,9 @@ import model.datavessel.PositionFixType;
 import model.datavessel.SpecialManIndicator;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -24,7 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 /**
- * Vue correspondant au formulaire de saisie des données
+ * Vue correspondant au formulaire de saisie des donnÃ©es
  */
 public class DataPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -57,10 +59,11 @@ public class DataPanel extends JPanel {
 	private JButton validateBtn;
 	
 	public DataPanel(DataImportListener importListener, DataExportListener exportListener, DataLoadListener loadListener) {
-		TitledBorder border = BorderFactory.createTitledBorder("Données initiales");
+		TitledBorder border = BorderFactory.createTitledBorder("Donn\u00E9es initiales");
 		setBorder(border);
 		
-		setLayout(new GridLayout(0, 2, 0, 0));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setLayout(new GridLayout(0, 2, (int) (screenSize.getWidth()/100), (int) (screenSize.getHeight()/150)));
 		
 		selectLbl = new JLabel("Choisir un fichier de donn\u00E9e bateau");
 		add(selectLbl);
@@ -83,7 +86,7 @@ public class DataPanel extends JPanel {
 		comboBox_aisVersion.setName("aisVersion");
 		add(comboBox_aisVersion);
 		
-		JLabel lblNumroOmi = new JLabel("Numéro OMI");
+		JLabel lblNumroOmi = new JLabel("Num\u00E9ro OMI");
 		add(lblNumroOmi);
 		
 		textField_imo = new JTextField();
@@ -117,7 +120,6 @@ public class DataPanel extends JPanel {
 		textField_dimBow = new JTextField();
 		textField_dimBow.setName("dimBow");
 		add(textField_dimBow);
-		textField_dimBow.setColumns(10);
 		
 		JLabel lblDistanceDeLa = new JLabel("Distance de la poupe");
 		add(lblDistanceDeLa);
@@ -147,7 +149,7 @@ public class DataPanel extends JPanel {
 		comboBox_posFixType.setName("posType");
 		add(comboBox_posFixType);
 		
-		JLabel lblPosAcc = new JLabel("Précision de position");
+		JLabel lblPosAcc = new JLabel("Pr\u00E9cision de position");
 		add(lblPosAcc);
 		
 		comboBox_posAcc = new JComboBox<String>(DataManager.posAccToStringArray());
@@ -181,7 +183,6 @@ public class DataPanel extends JPanel {
 		textField_speed = new JTextField();
 		textField_speed.setName("speed");
 		add(textField_speed);
-		textField_speed.setColumns(10);
 		
 		JLabel lblStatutDeNavigation = new JLabel("Statut de navigation");
 		add(lblStatutDeNavigation);
@@ -190,7 +191,7 @@ public class DataPanel extends JPanel {
 		comboBox_navStat.setName("navStat");
 		add(comboBox_navStat);
 		
-		JLabel lblSpecialManIndicator = new JLabel("Indicateur de manoeuvre particulière");
+		JLabel lblSpecialManIndicator = new JLabel("Indicateur de manoeuvre particuliÃ¨re");
 		add(lblSpecialManIndicator);
 		
 		comboBox_specialManIndicator = new JComboBox<String>(SpecialManIndicator.toStringArray());
@@ -213,19 +214,19 @@ public class DataPanel extends JPanel {
 	}
 	
 	/**
-	 * Permet de selectionner un fichier de données
+	 * Permet de selectionner un fichier de donnÃ©es
 	 * @return File
 	 */
 	public File getDataFile() {
 		File f = PopupManager.fileChooser("Selectionner un fichier", "Fichiers csv.", "csv");
-		if(f != null) selectLbl.setText("Selectionné : "+f.getName());
+		if(f != null) selectLbl.setText("Selectionn\u00E9 : "+f.getName());
 		return f;
 	}
 	
 	/**
 	 * Permet de sauvegarder un fichier
 	 * @param f File
-	 * @return true si le fichier a été sauvegardé, false sinon
+	 * @return true si le fichier a Ã©tÃ© sauvegardÃ©, false sinon
 	 */
 	public boolean saveDataFile(File f) {
 		return PopupManager.fileSaver("Enregistrer sous", f);
@@ -256,7 +257,7 @@ public class DataPanel extends JPanel {
 		LocalDate date = dateTimePanel.getDate();
 		int[] time = dateTimePanel.getTime();
 		Calendar c = Calendar.getInstance();
-		c.set(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), time[0], time[1], time[2]);
+		c.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), time[0], time[1], time[2]);
 		return c;
 	}
 	

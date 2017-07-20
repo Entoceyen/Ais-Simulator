@@ -1,12 +1,12 @@
 package model.datavessel;
 
 /**
- * EnumÈration, indicateur de manoeuvre particuliËre
+ * Enum√©ration, indicateur de manoeuvre particuli√®re
  */
 public enum SpecialManIndicator {
-	NOT_AVAILABLE(0, "Indisponible (par defaut)"),
-	NOT_ENGAGED(1, "Non engagÈ dans une manoeuvre particuliËre"),
-	ENGAGED(2, "EngagÈ dans une manoeuvre particuliËre");
+	NOT_AVAILABLE(0, "Indisponible (par d√©faut)"),
+	NOT_ENGAGED(1, "Non engag√© dans une manoeuvre particuli√®re"),
+	ENGAGED(2, "Engag√© dans une manoeuvre particuli√®re");
 	
 	private int id;
 	private String name;

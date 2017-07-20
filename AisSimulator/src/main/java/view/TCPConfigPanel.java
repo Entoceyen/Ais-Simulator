@@ -73,7 +73,7 @@ public class TCPConfigPanel extends JPanel {
 	}
 	
 	/**
-	 * Actualise l'affichage de l'état de la connexion au serveur
+	 * Actualise l'affichage de l'Ã©tat de la connexion au serveur
 	 * @param s String
 	 */
 	public void setState(String s) {

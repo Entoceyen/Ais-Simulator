@@ -1,17 +1,17 @@
 package model.datavessel;
 
 /**
- * EnumÈration des types dispositif de dÈtermination de la position
+ * Enum√©ration des types dispositif de d√©termination de la position
  */
 public enum PositionFixType {
-	UNDIFINED(0, "Non dÈfini (par defaut)"),
+	UNDIFINED(0, "Non d√©fini (par d√©faut)"),
 	GPS(1, "GPS"),
 	GLONASS(2, "GLONASS"),
-	GPS_GLONASS(3, "GPS/GLONASS combinÈ"),
+	GPS_GLONASS(3, "GPS/GLONASS combin√©"),
 	LORAN_C(4, "Loran-C"),
 	CHAYKA(5, "Chayka"),
-	INTEGRATED_NAV_SYSTEM(6, "SystËme de navigation intÈgrÈ"),
-	SURVEYED(7, "EtudiÈ"),
+	INTEGRATED_NAV_SYSTEM(6, "Syst√®me de navigation int√©gr√©"),
+	SURVEYED(7, "Etudi√©"),
 	GALILEO(8, "Galileo"),
 	INTERNAL_GNSS(15, "GNSS interne");
 	

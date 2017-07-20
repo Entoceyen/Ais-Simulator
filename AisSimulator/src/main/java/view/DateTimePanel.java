@@ -4,6 +4,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.time.LocalDate;
 
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +25,8 @@ public class DateTimePanel extends JPanel {
 	private JCheckBox chbxTimestamp;
 	
 	public DateTimePanel() {
-		chbxTimestamp = new JCheckBox("Heure de départ");
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		chbxTimestamp = new JCheckBox("Heure de d\u00E9part");
 		chbxTimestamp.setName("timeStamp");
 		chbxTimestamp.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -42,7 +44,7 @@ public class DateTimePanel extends JPanel {
 		add(txtFieldHour);
 		txtFieldHour.setColumns(2);
 		
-		JLabel label_2 = new JLabel(":");
+		JLabel label_2 = new JLabel(" : ");
 		add(label_2);
 		
 		txtFieldMin = new JTextField();
@@ -51,7 +53,7 @@ public class DateTimePanel extends JPanel {
 		add(txtFieldMin);
 		txtFieldMin.setColumns(2);
 		
-		JLabel label_3 = new JLabel(":");
+		JLabel label_3 = new JLabel(" : ");
 		add(label_3);
 		
 		txtFieldSec = new JTextField();
@@ -64,7 +66,7 @@ public class DateTimePanel extends JPanel {
 	}
 	
 	/**
-	 * Verifie si la checkbox est cochée
+	 * Verifie si la checkbox est cochÃ©e
 	 * @return boolean
 	 */
 	public boolean isTimeStamp() {
@@ -98,7 +100,7 @@ public class DateTimePanel extends JPanel {
 	}
 	
 	/**
-	 * Active ou désactive la vue
+	 * Active ou dÃ©sactive la vue
 	 * @param b : boolean
 	 */
 	protected void setActive(boolean b) {

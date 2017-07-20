@@ -11,7 +11,7 @@ import controler.Application;
 import java.awt.CardLayout;
 
 /**
- * Vue et fenetre affichant les différents panneaux d'options
+ * Vue et fenetre affichant les diffÃ©rents panneaux d'options
  */
 public class OptionsFrame extends JFrame {
 	private static final long serialVersionUID = 1L;

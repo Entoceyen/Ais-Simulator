@@ -10,16 +10,16 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * Vue permettant de gÈrer tout les affichages de type pop-up
+ * Vue permettant de g√©rer tout les affichages de type pop-up
  */
 public class PopupManager {
 	
 	/**
-	 * Permet d'afficher pop-up de selection d'un fichier
-	 * @param title - titre du pop-up
-	 * @param filterDescription
-	 * @param extensions - extension de fichier possible
-	 * @return le fichier selectionnÈ
+	 * Permet d'afficher pop-up de s√©lection d'un fichier
+	 * @param title titre du pop-up
+	 * @param filterDescription description du filtre
+	 * @param extensions extension de fichier possible
+	 * @return le fichier selectionn√©
 	 */
 	public static File fileChooser(String title, String filterDescription, String... extensions) {
 		JFileChooser chooser = new JFileChooser();
@@ -37,9 +37,9 @@ public class PopupManager {
 	
 	/**
 	 * Permet d'afficher pop-up de sauvegarde d'un fichier
-	 * @param title - titre du pop-up
-	 * @param file - fichier ‡ sauvegarder
-	 * @return true si la sauvegarde a ÈtÈ un succËs, false sinon
+	 * @param title titre du pop-up
+	 * @param file fichier √† sauvegarder
+	 * @return true si la sauvegarde a √©t√© un succ√®s, false sinon
 	 */
 	public static boolean fileSaver(String title, File file) {
 		JFileChooser saver = new JFileChooser();
@@ -61,8 +61,8 @@ public class PopupManager {
 	
 	/**
 	 * Affiche un pop-up d'erreur
-	 * @param title - titre du pop-up
-	 * @param message ‡ afficher
+	 * @param title titre du pop-up
+	 * @param message √† afficher
 	 */
 	public static void errorMessage(String title, String message) {
 		JOptionPane.showMessageDialog(null, message, "ERREUR : " + title, JOptionPane.ERROR_MESSAGE);
@@ -70,8 +70,8 @@ public class PopupManager {
 	
 	/**
 	 * Affiche un pop-up d'information
-	 * @param title - titre du pop-up
-	 * @param message ‡ afficher
+	 * @param title titre du pop-up
+	 * @param message √† afficher
 	 */
 	public static void infoMessage(String title, String message) {
 		JOptionPane.showMessageDialog(null, message, "Info : " + title, JOptionPane.INFORMATION_MESSAGE);
@@ -79,9 +79,10 @@ public class PopupManager {
 	
 	/**
 	 * Affiche un pop-up d'options
-	 * @param title - titre du pop-up
-	 * @param message ‡ afficher
-	 * @param options - liste des options ‡ afficher
+	 * @param title titre du pop-up
+	 * @param message √† afficher
+	 * @param options liste des options √† afficher
+	 * @return identifiant de l'option choisie
 	 */
 	public static int optionsMessage(String title, String message, String... options) {
 		return JOptionPane.showOptionDialog(null, message, title, JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);

@@ -3,12 +3,12 @@ package model;
 import java.util.*;
 
 /**
- * Modèle correspondant au trajet du bateau
+ * ModÃ¨le correspondant au trajet du bateau
  */
 public class Path {
 	
 	/**
-	 * Suite de point de coordonnées ordonnées
+	 * Suite de point de coordonnÃ©es ordonnÃ©es
 	 */
 	private ArrayList<Coordinate> steps;
 	private String name;
@@ -26,7 +26,7 @@ public class Path {
     }
     
     /**
-     * Ajoute un point de coordonnées étape
+     * Ajoute un point de coordonnÃ©es Ã©tape
      * @param c : Coordinate
      */
     public void addStep(Coordinate c) {
@@ -34,7 +34,7 @@ public class Path {
     }
     
     /**
-     * Retourne le nombre d'étape
+     * Retourne le nombre d'Ã©tape
      * @return entier
      */
     public int getNbSteps() {
@@ -42,8 +42,8 @@ public class Path {
     }
     
     /**
-     * Retourne le point de coordonnées à l'indice i dans la liste
-     * @param i : numéro de l'étape dans la liste
+     * Retourne le point de coordonnÃ©es Ã  l'indice i dans la liste
+     * @param i : numÃ©ro de l'Ã©tape dans la liste
      * @return Coordinate
      */
     public Coordinate getStep(int i) {

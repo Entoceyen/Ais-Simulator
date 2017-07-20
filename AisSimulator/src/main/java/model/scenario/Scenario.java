@@ -1,22 +1,25 @@
 package model.scenario;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import model.Simulation;
 
+/**
+ * Modèle principal à l'ensemble des modèles sc�nario.
+ */
 public abstract class Scenario {
 
+	/**
+	 * Enuméation de l'ensemble des scénarios. Est utilisé dans la vue ScenarioPanel
+	 */
 	public static enum Scenarios { 
 		BadMIDScenario("Faux MID",BadMIDScenario.class), 
-		BadPositionScenario("Position erron�e",BadPositionScenario.class), 
-		ChangeDataScenario("Modification d'une donn�e",ChangeDataScenario.class), 
+		BadPositionScenario("Position erronée",BadPositionScenario.class), 
+		ChangeDataScenario("Modification d'une donnée",ChangeDataScenario.class), 
 		ChangeSpeedScenario("Changement de vitesse",ChangeSpeedScenario.class), 
-		DeAisScenario("D�AIS",DeAisScenario.class), 
+		DeAisScenario("DéAIS",DeAisScenario.class), 
 		GhostScenario("AIS off",GhostScenario.class), 
-		PathOnGroundScenario("Trajet � terre",PathOnGroundScenario.class), 
-		TeleportScenario("Positions successives incoh�rentes",TeleportScenario.class), 
-		VesselSameIDScenario("Navire m�me MMSI",VesselSameIDScenario.class);
+		PathOnGroundScenario("Trajet à terre",PathOnGroundScenario.class), 
+		TeleportScenario("Positions successives incohérentes",TeleportScenario.class), 
+		VesselSameIDScenario("Navire même MMSI",VesselSameIDScenario.class);
 		
 		private String label;
 		private Class<? extends Scenario> type;
@@ -39,18 +42,23 @@ public abstract class Scenario {
 		}
 	}
 	
+	/**
+	 * Seconde de départ pour l'application du scénario
+	 */
 	private int startTime;
+	
+	/**
+	 * Durée en seconde de l'application du scénario
+	 */
 	private int duration;
 	private Simulation simulation;
+	
+	/**
+	 * Indique si le scénario implique un re-calcul de la simulation
+	 */
 	private boolean compute;
 
-	public static String[] getScenarios() {
-		ArrayList<String> scenarios = new ArrayList<String>();
-		for(Scenarios s : Scenarios.values()) scenarios.add(s.toString());
-		return (String[]) scenarios.toArray();
-	}
-	
-	public static Scenarios[] getScenarios2() {
+	public static Scenarios[] getScenarios() {
 		return Scenarios.values();
 	}
 	
@@ -60,8 +68,17 @@ public abstract class Scenario {
 		this.compute = compute;
 	}
 
+	/**
+	 * Doit être redéfini dans les sous-classe. Applique le scénario à la simulation.
+	 */
 	abstract public void apply();
-	abstract public void remove();
+	
+	/**
+	 * Supprime le scénario de la simulation.
+	 */
+	public void remove() {
+		simulation.getScenarios().remove(this);
+	}
 
 	public int getStartTime() {
 		return startTime;
@@ -95,11 +112,10 @@ public abstract class Scenario {
 		compute = b;
 	}
 	
-	public static HashMap<String,Object> getDataType() {
-		HashMap<String, Object> dataType = new HashMap<String, Object>();
-		dataType.put("Temps d'arriv�", Integer.class);
-		dataType.put("Dur�e", Integer.class);
-		return dataType;
+	@Override
+	public String toString() {
+		return "Scenario [startTime=" + startTime + ", duration=" + duration + ", compute=" + compute + "]";
 	}
-
+	
+	public abstract String description();
 }

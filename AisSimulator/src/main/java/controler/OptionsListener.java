@@ -11,7 +11,7 @@ import view.OptionsFrame;
 import view.OptionsPanel;
 
 /**
- * Contrôleur listener à l'écoute des actions utilisateur sur la vue options
+ * ContrÃ´leur listener Ã  l'Ã©coute des actions utilisateur sur la vue options
  */
 public class OptionsListener implements ActionListener, ChangeListener {
 	
@@ -37,7 +37,7 @@ public class OptionsListener implements ActionListener, ChangeListener {
 	}
 
 	/**
-	 * Lorsque le slider est déplacé, la taille de police est changée dynamiquement
+	 * Lorsque le slider est dÃ©placÃ©, la taille de police est changÃ©e dynamiquement
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {

@@ -1,12 +1,12 @@
 package model.datavessel;
 
 /**
- * Enumération des versions AIS
+ * EnumÃ©ration des versions AIS
  */
 public enum AisVersion {
-	V1(0, "Conforme à la Recommandation UIT-R M.1371-1"),
-	V3(1, "Conforme à la Recommandation UIT-R M.1371-3 (ou version ultérieure)"),
-	V5(2, "Conforme à la Recommandation UIT-R M.1371-5 (ou version ultérieure)"),
+	V1(0, "Conforme Ã  la Recommandation UIT-R M.1371-1"),
+	V3(1, "Conforme Ã  la Recommandation UIT-R M.1371-3 (ou version ultÃ©rieure)"),
+	V5(2, "Conforme Ã  la Recommandation UIT-R M.1371-5 (ou version ultÃ©rieure)"),
 	VFuture(3, "Conforme aux futures versions");
 	
 	private int id;

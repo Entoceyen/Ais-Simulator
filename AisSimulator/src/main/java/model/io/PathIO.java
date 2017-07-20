@@ -9,7 +9,7 @@ import model.Coordinate;
 import model.Path;
 
 /**
- * Modèle permettant de lire un fichier de trajet et de retourner un objet Path
+ * ModÃ¨le permettant de lire un fichier de trajet et de retourner un objet Path
  */
 public abstract class PathIO {
 	

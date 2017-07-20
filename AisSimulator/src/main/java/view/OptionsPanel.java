@@ -37,7 +37,7 @@ public class OptionsPanel extends JPanel {
 	}
 	
 	/**
-	 * Actualise les éléments d'affichage par rapport à la taille de la police
+	 * Actualise les Ã©lÃ©ments d'affichage par rapport Ã  la taille de la police
 	 */
 	public void setFontSize() {
 		lblFontSize.setText("Taille de la police : "+getFont().getSize());

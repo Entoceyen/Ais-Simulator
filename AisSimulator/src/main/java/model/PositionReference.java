@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Modèle correspondant à la référence pour la position
+ * ModÃ¨le correspondant Ã  la rÃ©fÃ©rence pour la position
  */
 public class PositionReference implements Cloneable {
 	

@@ -6,7 +6,7 @@ import model.Simulation;
 import view.DataPanel;
 
 /**
- * Controleur père pour les classes DataXXXListener
+ * ContrÃ´leur pÃ¨re pour les classes DataXXXListener
  */
 public abstract class DataManager {
 	
@@ -22,7 +22,7 @@ public abstract class DataManager {
 	}
 	
 	/**
-	 * Retourne le type de navire correspondant à l'identifiant id
+	 * Retourne le type de navire correspondant Ã  l'identifiant id
 	 * @param id
 	 * @return String
 	 */
@@ -76,20 +76,20 @@ public abstract class DataManager {
 	}
 	
 	/**
-	 * Retourne la précision de position en fonction de son identifiant
+	 * Retourne la prÃ©cision de position en fonction de son identifiant
 	 * @param id l'identifiant
 	 * @return String
 	 */
 	protected static String getPosAccByID(int id) {
-		if(id == 0) return "0 - Peu élevée";
-		else return "1 - Elevée"; 
+		if(id == 0) return "0 - Peu \u00E9lev\u00E9e";
+		else return "1 - Elev\u00E9e"; 
 	}
 	
 	/**
-	 * Retourne l'ensemble des précisions de position sous forme d'un tableau de chaine
+	 * Retourne l'ensemble des prÃ©cisions de position sous forme d'un tableau de chaine
 	 * @return String[]
 	 */
 	public static String[] posAccToStringArray() {
-		return new String[]{"0 - Peu élevée","1 - Elevée"};
+		return new String[]{"0 - Peu \u00E9lev\u00E9e","1 - Elev\u00E9ï¿½e"};
 	}
 }

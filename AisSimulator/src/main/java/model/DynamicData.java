@@ -4,7 +4,7 @@ import dk.dma.ais.message.NavigationalStatus;
 import model.datavessel.SpecialManIndicator;
 
 /**
- * Modèle concernant l'ensemble des données dynamique pour les messages AIS 1 et 5
+ * ModÃ¨le concernant l'ensemble des donnÃ©es dynamique pour les messages AIS 1 et 5
  */
 public class DynamicData implements Cloneable {
 
@@ -12,15 +12,15 @@ public class DynamicData implements Cloneable {
 
 	/**
 	 * Rate of turne - Vitesse angulaire de virage
-	 * 0 à +126 : virage à droite jusqu'à 708° / min ou plus
-	 * 0 à -126 : virage à gauche jusqu'à 708° / min ou plus
+	 * 0 ï¿½ +126 : virage Ã  droite jusqu'Ã  708Â° / min ou plus
+	 * 0 ï¿½ -126 : virage Ã  gauche jusqu'Ã  708Â° / min ou plus
 	 * 
-	 * Valeurs comprises en 0 et 708°/min sont codées par : ROTais = 4.733*sqrt(ROTsensor) degrés/min
-	 * où ROTsensor est le ROT indiqué par un capteur externe (TI)
-	 * ROTais est arrondie à la valeur entière la plus proche
+	 * Valeurs comprises en 0 et 708Â°/min sont codÃ©es par : ROTais = 4.733*sqrt(ROTsensor) degrÃ©s/min
+	 * oÃ¹ ROTsensor est le ROT indiquÃ© par un capteur externe (TI)
+	 * ROTais est arrondie ï¿½ la valeur entiÃ¨re la plus proche
 	 * 
-	 * +127 : virage à droite à plus de 5°/30s (pas de TI disponible)
-	 * -127 : virage à gauche à plus de 5°/30s (pas de TI disponible)
+	 * +127 : virage Ã  droite Ã  plus de 5Â°/30s (pas de TI disponible)
+	 * -127 : virage Ã  gauche Ã  plus de 5Â°/30s (pas de TI disponible)
 	 * -128 : information non disponible
 	 */
 	private int rot;
@@ -33,8 +33,8 @@ public class DynamicData implements Cloneable {
 	private int speed;
 
 	/**
-	 * Précision de position
-	 * 1 : élevée / 0 : peu élevée (par défaut)
+	 * PrÃ©cision de position
+	 * 1 : Ã©levÃ©e / 0 : peu Ã©levÃ©e (par dÃ©faut)
 	 */
 	private int posAcc;
 
@@ -42,14 +42,14 @@ public class DynamicData implements Cloneable {
 
 	/**
 	 * Course over ground - Route de fond
-	 * En 1/10° (0-3599)
-	 * 3600 : non disponible (par défaut)
+	 * En 1/10Â° (0-3599)
+	 * 3600 : non disponible (par dÃ©faut)
 	 */
 	private int cog;
 
 	/**
 	 * Cap vrai
-	 * en degrés (0-359) (511 par défaut)
+	 * en degrÃ©s (0-359) (511 par dÃ©faut)
 	 */
 	private int trueHeading;
 
@@ -57,8 +57,8 @@ public class DynamicData implements Cloneable {
 
 	/**
 	 * Fanion RAIM
-	 * 0 : non utilisé - par défaut
-	 * 1 : utilisé
+	 * 0 : non utilisÃ©- par dï¿½faut
+	 * 1 : utilisÃ©
 	 */
 	private int raim;
 
@@ -149,6 +149,24 @@ public class DynamicData implements Cloneable {
 		return "DynamicData [navStat=" + navStat + ", rot=" + rot + ", speed=" + speed + ", posAcc=" + posAcc
 				+ ", position=" + position + ", cog=" + cog + ", trueHeading=" + trueHeading + ", specialManIndicator="
 				+ specialManIndicator + ", raim=" + raim + "]";
+	}
+	
+	/**
+	 * Retourne la chaine de caractÃ¨re utilisÃ©e pour la prÃ©visualisation
+	 * @return Texte au format html
+	 */
+	public String description() {
+		return "<ul><h2>DonnÃ©es dynamiques</h2>"
+				+ "<li>Status de navigation : "+navStat+"</li>"
+				+ "<li>ROT : "+rot+"</li>"
+				+ "<li>Vitesse fond : "+(double)(speed/10)+" kts</li>"
+				+ "<li>PrÃ©cision de position : "+(posAcc==1?"ElevÃ©e":"Peu Ã©levÃ©e")+"</li>"
+				+ "<li>Position : "+position.getLatitudeDouble()+", "+position.getLongitudeDouble()+"</li>"
+				+ "<li>Route de fond : "+(double)(cog/10)+" Â°</li>"
+				+ "<li>Cap vrai : "+trueHeading+" Â°</li>"
+				+ "<li>Indicateur de manoeuvre particuliÃ¨re : "+specialManIndicator+"</li>"
+				+ "<li>RAIM : "+(raim==0?"Non utilisÃ©":"UtilisÃ©")+"</li>"
+				+ "</ul>";
 	}
 	
 }

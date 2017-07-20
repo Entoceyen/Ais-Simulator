@@ -5,7 +5,7 @@ import model.datavessel.AisVersion;
 import model.datavessel.PositionFixType;
 
 /**
- * Modèle concernant l'ensemble des données statique pour les messages AIS 1 et 5
+ * ModÃ¨le concernant l'ensemble des donnÃ©es statique pour les messages AIS 1 et 5
  */
 public class StaticData implements Cloneable {
 
@@ -16,21 +16,21 @@ public class StaticData implements Cloneable {
 
     /**
      * Nom du navire
-     * Maximum 20 caractère ASCII à 6 bits
-     * "@@@@@@@@@@@@@@@@@@@@" : non disponible (par défaut)
+     * Maximum 20 caractÃ¨re ASCII Ã  6 bits
+     * "@@@@@@@@@@@@@@@@@@@@" : non disponible (par dÃ©faut)
      */
     private String name;
 
     /**
-     * Numéro OMI
-     * 0 : non disponible (par défaut)
+     * NumÃ©ro OMI
+     * 0 : non disponible (par dÃ©faut)
      */
     private int imo;
 
     /**
      * Indicatif d'appel
-     * 7 caractère ASCII à 6 bits
-     * "@@@@@@@" : non disponible (par défaut)
+     * 7 caractÃ¨re ASCII Ã  6 bits
+     * "@@@@@@@" : non disponible (par dÃ©faut)
      */
     private String callSign;
 
@@ -45,31 +45,31 @@ public class StaticData implements Cloneable {
     private ShipTypeCargo shipType;
 
     /**
-     * Dimension générales / référence pour la position (voir PositionReference)
+     * Dimension gÃ©nÃ©rales / rÃ©fÃ©rence pour la position (voir PositionReference)
      */
     private PositionReference posRef;
 
     /**
-     * Type de dispositif électronique de détermination de la position (voir PositionFixType) 
+     * Type de dispositif Ã©lectronique de dÃ©termination de la position (voir PositionFixType) 
      */
     private PositionFixType posType;
 
     /**
      * Tirant d'eau statique actuel maximal en 1/10 metres
      * 255 : 25.5 m ou plus
-     * 0 : non disponible (par défaut)
+     * 0 : non disponible (par dÃ©faut)
      */
     private int draught;
 
     /**
-     * Terminal de données prêt
+     * Terminal de donnÃ©es prÃªt
      */
     private boolean dte;
 
     /**
      * Destination
-     * Maximum 20 caractère ASCII à 6 bits
-     * "@@@@@@@@@@@@@@@@@@@@" : non disponible (par défaut)
+     * Maximum 20 caractÃ¨re ASCII Ã  6 bits
+     * "@@@@@@@@@@@@@@@@@@@@" : non disponible (par dÃ©faut)
      */
     private String destination;
 
@@ -194,6 +194,26 @@ public class StaticData implements Cloneable {
 		return "StaticData [mmsi=" + mmsi + ", name=" + name + ", imo=" + imo + ", callSign=" + callSign
 				+ ", aisVersion=" + aisVersion + ", shipType=" + shipType + ", posRef=" + posRef + ", posType="
 				+ posType + ", draught=" + draught + ", dte=" + dte + ", destination=" + destination + "]";
+	}
+	
+	/**
+	 * Retourne la chaine de caractï¿½re utilisï¿½e pour la prï¿½visualisation
+	 * @return Texte au format html
+	 */
+	public String description() {
+		return "<ul><h2>DonnÃ©es statiques</h2>"
+				+ "<li>MMSI : "+mmsi+"</li>"
+				+ "<li>Nom : "+name+"</li>"
+				+ "<li>OMI : "+imo+"</li>"
+				+ "<li>Callsign : "+callSign+"</li>"
+				+ "<li>Version AIS : "+aisVersion+"</li>"
+				+ "<li>Type de navire : "+shipType+"</li>"
+				+ "<li>RÃ©fÃ©rence pour la position (m) : "+posRef.getDimBow()+","+posRef.getDimStern()+","+posRef.getDimPort()+","+posRef.getDimStarboard()+" (distance de la proue, de la poupe, de babord, de tribord)</li>"
+				+ "<li>Type de dispositif de positionnement : "+posType+"</li>"
+				+ "<li>Tirant d'eau : "+(double)(draught/10)+" m</li>"
+				+ "<li>DTE : "+(dte?"Disponible":"Non disponible")+"</li>"
+				+ "<li>Destination : "+destination+"</li>"
+				+ "</ul>";
 	}
 	
 }

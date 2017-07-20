@@ -4,11 +4,15 @@ import dk.dma.ais.message.AisMessage5;
 import dk.dma.ais.message.AisMessageException;
 import model.StaticData;
 
+/**
+ * ModÃ¨le de crÃ©ation d'un message AIS de type 5
+ */
 public class AisMessage5Creator {
 	
 	/**
-	 * Fonction permettant créer un message AisMessage5 à partir des données passées en paramètres
-	 * @param data : Liste des données du message <nomduchamp,donnée>
+	 * Fonction permettant de crÃ©er un message AisMessage5 Ã  partir des donnÃ©es statiques
+	 * @param staticData StaticData 
+	 * @param eta long 
 	 * @return Un objet de la classe AisMessage5 (AisLib)
 	 * @throws AisMessageException
 	 */

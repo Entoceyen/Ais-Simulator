@@ -11,7 +11,7 @@ import view.PathPanel;
 import view.PopupManager;
 
 /**
- * Controleur listener permettant de charger un fichier de trajet
+ * Contrôleur listener permettant de charger un fichier de trajet
  */
 public class PathListener implements ActionListener {
 
@@ -37,7 +37,6 @@ public class PathListener implements ActionListener {
 		}
 		if(path.getNbSteps() < 2) PopupManager.errorMessage("Trajet incorrecte", "Le trajet doit comporter au minimum 2 points.");
 		simulation.setPath(path);
-		System.out.println(path.toString());
 	}
 
 }

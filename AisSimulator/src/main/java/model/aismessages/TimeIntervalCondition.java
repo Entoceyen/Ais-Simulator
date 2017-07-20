@@ -1,5 +1,8 @@
 package model.aismessages;
 
+/**
+ * Enumération des différentes condition correspondant aux différents interval de temps pour les messages de type 1
+ */
 public enum TimeIntervalCondition {
 	ANCHOR_MAX3KTS(3*60*1000),
 	ANCHOR_MIN3KTS(10000),
@@ -16,6 +19,13 @@ public enum TimeIntervalCondition {
 		interval = millisecond;
 	}
 	
+	/**
+	 * Retourne la condition en fonction de la vitesse, du virage ou non, de statut à l'ancre ou non
+	 * @param speed vitesse
+	 * @param turning indique si le bateau tourne
+	 * @param anchor indique si le statut de navigation est à l'ancre ou au mouillage
+	 * @return TimeIntervalCondition
+	 */
 	public static TimeIntervalCondition get(double speed, boolean turning, boolean anchor) {
 		if(anchor && speed <= 3) return ANCHOR_MAX3KTS;
 		if(anchor && speed > 3) return ANCHOR_MIN3KTS;

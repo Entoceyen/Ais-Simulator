@@ -1,14 +1,21 @@
 package model.scenario;
 
-import java.util.HashMap;
-import java.util.Random;
+import java.util.Arrays;
 
 import model.Coordinate;
-import model.scenario.Scenario.Scenarios;
 
+/**
+ * Modèle scénario générant une position invalide
+ * S'applique d'un instant défini pendant un certaine durée
+ * Ne nécessite pas de re-calcule de la simulation
+ */
 public class BadPositionScenario extends Scenario {
 	
 	private Coordinate badPosition;
+	
+	/**
+	 * Sauvegarde des anciennes valeurs des positions modifiées
+	 */
 	private Coordinate[] oldPositions;
 
 	public BadPositionScenario(int startTime, int duration) {
@@ -17,6 +24,9 @@ public class BadPositionScenario extends Scenario {
 		oldPositions = new Coordinate[duration];
 	}
 
+	/**
+	 * Applique la position invalide sur la plage de valeur définie
+	 */
 	@Override
 	public void apply() {
 		for(int i=getStartTime() ; i<getStartTime()+getDuration() ; i++) {
@@ -25,17 +35,21 @@ public class BadPositionScenario extends Scenario {
 		}
 	}
 	
+	/**
+	 * Restaure les anciennes position sur la plage de valeurs modifiée et supprime le scénario
+	 */
 	@Override
 	public void remove() {
 		for(int i=getStartTime() ; i<getStartTime()+getDuration() ; i++)
 			getSimulation().getInstant(i).getDynamicData().setPosition(oldPositions[i-getStartTime()]);
+		super.remove();
 	}
 	
+	/**
+	 * Génére une position invalide
+	 * @return Coordinate
+	 */
 	private Coordinate generateBadPosition() {
-		Random rand = new Random();
-		int random = rand.nextInt(2 - 0 + 1) + 0;
-		if(random == 0) return new Coordinate(95, getSimulation().getInstant(getStartTime()).getDynamicData().getPosition().getLongitudeDouble());
-		if(random == 1) return new Coordinate(getSimulation().getInstant(getStartTime()).getDynamicData().getPosition().getLatitudeDouble(), 185);
 		return new Coordinate(95, 185);
 	}
 	
@@ -46,11 +60,15 @@ public class BadPositionScenario extends Scenario {
 	public Coordinate[] getOldPositions() {
 		return oldPositions;
 	}
+
+	@Override
+	public String toString() {
+		return "BadPositionScenario [badPosition=" + badPosition + ", oldPositions=" + Arrays.toString(oldPositions)
+				+ ", toString()=" + super.toString() + "]";
+	}
 	
-	public static HashMap<String,Object> getDataType() {
-		HashMap<String,Object> dataType = Scenario.getDataType();
-		dataType.put("SCENARIO", Scenarios.BadPositionScenario);
-		return dataType;
+	public String description() {
+		return "Position erronée - Moment d'arrivée : "+getStartTime()+", Durée : "+getDuration();
 	}
 	
 }

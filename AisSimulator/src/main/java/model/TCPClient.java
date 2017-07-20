@@ -4,28 +4,36 @@ import java.io.*;
 import java.net.*;
 
 /**
- * Client TCP permettant d'envoyer des messages sur un serveur tcp
+ * Modèle client TCP permettant d'envoyer des messages sur un serveur tcp
  */
 public class TCPClient {
 	
 	private static String address;
 	private static int port;
 	
+	/**
+	 * Se connecte et envoi la chaine de caractère sur un serveur TCP
+	 * @param line
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
 	public static void sendMessage(String line) throws UnknownHostException, IOException {
 		Socket clientSocket = new Socket(address, port);
 		// connexion transpondeur
-		PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
-		pw.print(line);
+//		PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
+//		pw.println(line);
+//		pw.close();
 		// connexion hercules
-		OutputStream os = clientSocket.getOutputStream();
-		os.write(line.getBytes());
+		DataOutputStream os = new DataOutputStream(clientSocket.getOutputStream());
+		os.write((line+"\n").getBytes());
+		os.flush();
 		clientSocket.close();
-		pw.close();
+		os.close();
 	}
 	
 	/**
 	 * Test la connexion au serveur
-	 * @return true si la connexion est �tablie, false sinon
+	 * @return true si la connexion est établie, false sinon
 	 */
 	public static boolean ping() {
 		try {

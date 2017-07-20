@@ -18,7 +18,7 @@ import model.io.DataIO;
 import view.PopupManager;
 
 /**
- * Controleur listener permettant de vérifier et d'importer les données depuis un fichier
+ * ContrÃ´leur listener permettant de vÃ©rifier et d'importer les donnÃ©es depuis un fichier
  */
 public class DataImportListener extends DataManager implements ActionListener {
 
@@ -191,7 +191,7 @@ public class DataImportListener extends DataManager implements ActionListener {
 					}
 				}
 			} catch (NumberFormatException nbfe) {
-				error += "Erreur dans le contenu du fichier : un nombre est attendu pour le champ "+name+". '"+value+"' trouvé\n";
+				error += "Erreur dans le contenu du fichier : un nombre est attendu pour le champ "+name+". '"+value+"' trouvï¿½\n";
 				continue;
 			}
 		}
@@ -199,9 +199,9 @@ public class DataImportListener extends DataManager implements ActionListener {
 	}
 	
 	/**
-	 * Message d'erreur de liste déroulante
-	 * @param name - nom du champ
-	 * @param id - valeur du champ
+	 * Message d'erreur de liste dÃ©roulante
+	 * @param name nom du champ
+	 * @param id valeur du champ
 	 * @return le message d'erreur
 	 */
 	private String comboBoxOutOfRange(String name, int id) {
@@ -210,8 +210,8 @@ public class DataImportListener extends DataManager implements ActionListener {
 	
 	/**
 	 * Message d'erreur de champ de texte classique
-	 * @param name - nom du champ
-	 * @param value - valeur du champ
+	 * @param name nom du champ
+	 * @param value valeur du champ
 	 * @return le message d'erreur
 	 */
 	private String incorrectValue(String name, String value) {

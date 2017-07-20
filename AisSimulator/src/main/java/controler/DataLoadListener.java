@@ -21,11 +21,13 @@ import view.FormPanel;
 import view.PopupManager;
 
 /**
- * Controleur listener permettant de vérifier et d'enregister en mémoire les données depuis le formulaire
+ * ContrÃ´leur listener permettant de vÃ©rifier et d'enregister en mÃ©moire les donnÃ©es depuis le formulaire
  */
 public class DataLoadListener extends DataManager implements ActionListener {
 	
 	private TimedSimulationListener timedSimuListener;
+	private ScenariosListener scenariosListener;
+	private AisStreamListener streamListener;
 	
 	public DataLoadListener(Simulation simulation) {
 		super(simulation);
@@ -39,7 +41,6 @@ public class DataLoadListener extends DataManager implements ActionListener {
 		
 		String errors = "";
 		for(Component c : panel.getComponents()) {
-			System.out.println(c.getName());
 			if(c instanceof JTextField) {
 				String value = ((JTextField)c).getText();
 				String name = c.getName();
@@ -141,7 +142,7 @@ public class DataLoadListener extends DataManager implements ActionListener {
 					default:
 					}
 				} catch (NumberFormatException nbfe) {
-					errors += "un nombre est attendu pour le champ "+name+". '"+value+"' trouvé\n";
+					errors += "un nombre est attendu pour le champ "+name+". '"+value+"' trouvÃ©\n";
 					continue;
 				}
 			} else if(c instanceof JComboBox) {
@@ -175,32 +176,35 @@ public class DataLoadListener extends DataManager implements ActionListener {
 		}
 		
 		if(errors.length() > 0) {
-			PopupManager.errorMessage("Chargement des données", errors);
+			PopupManager.errorMessage("Chargement des donnÃ©es", errors);
 			return;
 		}
 		
-		// DataPanel et PathPanel non éditable
-		((FormPanel) panel.getParent()).disable();
-				
 		staticData.setPosRef(posRef);
 		dynData.setRaim(0);
 		
 		Calendar c = panel.getDateTime();
 		
-		simulation.init(staticData, dynData, c);
-		timedSimuListener.setDuration(simulation.getSize());
-				
-		for(int i=0;i<simulation.getSize();i++) {
-			System.out.println(i+" "+simulation.getInstant(i));
+		try {
+			simulation.init(staticData, dynData, c);
+		} catch (Exception e1) {
+			PopupManager.errorMessage("trajet manquant", "Veuillez saisir un trajet");
+			return;
 		}
+		timedSimuListener.setDuration(simulation.getSize()-1);
+		
+		// DataPanel et PathPanel non Ã©ditable
+		((FormPanel) panel.getParent()).disable();
+		scenariosListener.setEnablePanel(true);
+		streamListener.setEnablePanel(true);
 		
 		System.out.println(simulation.getSize()+"\n"+simulation);
 	}
 	
 	/**
 	 * Message d'erreur de champ de texte classique
-	 * @param name - nom du champ
-	 * @param value - valeur du champ
+	 * @param name nom du champ
+	 * @param value valeur du champ
 	 * @return le message d'erreur
 	 */
 	private String incorrectValue(String name, String value) {
@@ -210,5 +214,12 @@ public class DataLoadListener extends DataManager implements ActionListener {
 	public void setTimedSimulationListener(TimedSimulationListener timedSimuListener) {
 		this.timedSimuListener = timedSimuListener;
 	}
+	
+	public void setScenariosListener(ScenariosListener listener) {
+		this.scenariosListener = listener;
+	}
 
+	public void setStreamListener(AisStreamListener listener) {
+		this.streamListener = listener;
+	}
 }

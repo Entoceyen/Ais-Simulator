@@ -2,6 +2,10 @@ package model.scenario;
 
 import model.Path;
 
+/**
+ * Modèle scénario générant une changement de trajet de la simulation
+ * Nécessite de re-calculer la simulation
+ */
 public abstract class ChangePathScenario extends Scenario {
 	
 	private Path path;
@@ -9,18 +13,27 @@ public abstract class ChangePathScenario extends Scenario {
 
 	public ChangePathScenario(Path path) {
 		super(0, 0, true);
-		this.oldPath = this.path;
 		this.path = path;
 	}
 
+	/**
+	 * Applique la nouveau trajet à la simulation et sauvegarde l'ancien
+	 */
 	@Override
 	public void apply() {
+		oldPath = getSimulation().getPath();
 		getSimulation().setPath(path);
-		getSimulation().compute(0);
+		getSimulation().getInstant(0).getDynamicData().setPosition(path.getStep(0));
 	}
 	
+	/**
+	 * Restaure l'ancien trajet sur la simulation et supprime le scénario
+	 */
 	@Override
 	public void remove() {
+		getSimulation().setPath(oldPath);
+		getSimulation().getInstant(0).getDynamicData().setPosition(oldPath.getStep(0));
+		super.remove();
 	}
 
 	public Path getPath() {

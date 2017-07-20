@@ -1,10 +1,11 @@
 package model.scenario;
 
-import java.util.HashMap;
-
 import model.InstantSimulation;
-import model.scenario.Scenario.Scenarios;
 
+/**
+ * Modèle scénario permettant de changer la vitesse à un instant donné
+ * Nécessite de re-calculer de la simulation
+ */
 public class ChangeSpeedScenario extends Scenario {
 
 	private int speed;
@@ -14,16 +15,14 @@ public class ChangeSpeedScenario extends Scenario {
 		this.speed = (int)(speed*10);
 	}
 
+	/**
+	 * Applique la nouvelle vitesse sur l'instant choisi
+	 */
 	@Override
 	public void apply() {
 		InstantSimulation instant = getSimulation().getInstant(getStartTime());
 		instant.getDynamicData().setSpeed(speed);
 		instant.computeNextStepRadius();
-		getSimulation().compute(getStartTime());
-	}
-	
-	@Override
-	public void remove() {
 	}
 	
 	public int getSpeed() {
@@ -33,13 +32,17 @@ public class ChangeSpeedScenario extends Scenario {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	
-	public static HashMap<String,Object> getDataType() {
-		HashMap<String,Object> dataType = new HashMap<String, Object>();
-		dataType.put("SCENARIO", Scenarios.ChangeSpeedScenario);
-		dataType.put("Temps d'arriv�", Integer.class);
-		dataType.put("Vitesse (noeud)", Double.class);
-		return dataType;
+
+	@Override
+	public String toString() {
+		return "ChangeSpeedScenario [speed=" + speed + ", toString()=" + super.toString() + "]";
 	}
+
+	@Override
+	public String description() {
+		return "Changement de vitesse - Moment d'arrivée : "+getStartTime()+", Vitesse : "+speed;
+	}
+	
+	
 	
 }

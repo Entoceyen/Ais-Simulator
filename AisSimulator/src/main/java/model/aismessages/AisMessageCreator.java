@@ -16,10 +16,23 @@ import dk.dma.ais.reader.AisReaders;
 import dk.dma.ais.sentence.CommentBlock;
 import dk.dma.ais.sentence.Sentence;
 import dk.dma.ais.sentence.Vdm;
+import model.DynamicData;
 import model.Simulation;
 
+/**
+ * ModÃ¨le de crÃ©ation des messages AIS
+ */
 public abstract class AisMessageCreator {
-
+	
+	/**
+	 * CrÃ©Ã© un message
+	 * @param type int 1 ou 5
+	 * @param simu Simulation 
+	 * @param second int 
+	 * @param instant int 
+	 * @return Tableau de messages timestampÃ©
+	 * @throws Exception
+	 */
 	public static String[] create(int type, Simulation simu, int second, int instant) throws Exception {
 		AisMessage message = null;
 		if(type == 1) {
@@ -33,16 +46,38 @@ public abstract class AisMessageCreator {
 		String[] lines = Vdm.createSentences(message, 0);
 		int padBits = Integer.parseInt(lines[lines.length-1].split(",")[6].substring(0, 1));
 		message = readSentences(lines);
-		message.getVdm().setChannel(Calendar.getInstance().getTimeInMillis()%2 == 0 ? 'A':'B'); //On génère A ou B selon la parité de la milliseconde actuelle 
+		message.getVdm().setChannel(Calendar.getInstance().getTimeInMillis()%2 == 0 ? 'A':'B'); //On gï¿½nï¿½re A ou B selon la paritï¿½ de la milliseconde actuelle 
 		message.getVdm().setPadBits(padBits);
 		return createSentencesWithVdm(message);
 	}
 	
 	/**
-	 * Fonction permettant la création des phrases NMEA correspondant à un message AIS passé en paramètre.
+	 * CrÃ©Ã© un message de type 1 en fonction de donnÃ©es dynamiques et d'un mmsi
+	 * UtilisÃ© par le scÃ©nario VesselSameID
+	 * @param dynData DynamicData
+	 * @param mmsi int
+	 * @return tableau de message
+	 * @throws Exception
+	 */
+	public static String[] create(DynamicData dynData, int mmsi) throws Exception {
+		AisMessage message = null;
+		Calendar c = Calendar.getInstance(); 
+		message = AisMessage1Creator.create(dynData, c.get(Calendar.SECOND));
+		message.setRepeat(0);
+		message.setUserId(mmsi);
+		String[] lines = Vdm.createSentences(message, 0);
+		int padBits = Integer.parseInt(lines[lines.length-1].split(",")[6].substring(0, 1));
+		message = readSentences(lines);
+		message.getVdm().setChannel(Calendar.getInstance().getTimeInMillis()%2 == 0 ? 'A':'B'); //On gï¿½nï¿½re A ou B selon la paritï¿½ de la milliseconde actuelle 
+		message.getVdm().setPadBits(padBits);
+		return createSentencesWithVdm(message);
+	}
+	
+	/**
+	 * Fonction permettant la crÃ©ation des phrases NMEA correspondant Ã  un message AIS passï¿½ en paramÃ¨tre.
 	 * Utilise le Vdm compris dans le message.
-	 * @param msg : Objet de la classe AisMessage (AisLib)
-	 * @return Un tableau des phrases NMEA générées pour le message msg
+	 * @param msg Objet de la classe AisMessage (AisLib)
+	 * @return Un tableau des phrases NMEA gÃ©nÃ©rÃ©es pour le message msg
 	 * @throws SixbitException
 	 */
 	private static String[] createSentencesWithVdm(AisMessage msg) throws SixbitException {
@@ -56,6 +91,7 @@ public abstract class AisMessageCreator {
 	
 	/**
 	 * Retourne un TagBlock avec timestamp en s
+	 * @param c date et heure
 	 * @return tagBlock
 	 */
 	public static String createTagBlockS(Calendar c) {
@@ -66,6 +102,7 @@ public abstract class AisMessageCreator {
 	
 	/**
 	 * Retourne un TagBlock avec timestamp en ms
+	 * @param c date et heure 
 	 * @return tagBlock
 	 */
 	public static String createTagBlockMs(Calendar c) {
@@ -76,8 +113,8 @@ public abstract class AisMessageCreator {
 	}
 	
 	/**
-	 * Lit les phrases nmea passées en paramètre et retourne le message correspondant
-	 * @param lines tableau de phrase nmea correspondant à 1 message AIS
+	 * Lit les phrases nmea passÃ©es en paramÃ¨tre et retourne le message correspondant
+	 * @param lines tableau de phrase nmea correspondant Ã  1 message AIS
 	 * @return AisMessage
 	 * @throws InterruptedException
 	 */

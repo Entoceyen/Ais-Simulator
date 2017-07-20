@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Modèle utilitaire proposant l'ensemble des calculs pour le positionnement
+ */
 public class Calculator
 {
 	/**
@@ -28,7 +31,7 @@ public class Calculator
 	 * @param unit
 	 * @return double
 	 */
-	protected static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
+	public static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
 		double lat1R = Math.toRadians(lat1);
 		double lat2R = Math.toRadians(lat2);
 		double diffLatR = Math.toRadians(lat2-lat1);
@@ -52,11 +55,11 @@ public class Calculator
 	 * Respecte la courbure de la terre
 	 * @param latitude
 	 * @param longitude
-	 * @param angle 0-360
+	 * @param bearing 0-360
 	 * @param distance meter
 	 * @return tableau double
 	 */
-	protected static double[] position(double latitude, double longitude, double bearing, double distance) {
+	public static double[] position(double latitude, double longitude, double bearing, double distance) {
 		double[] result = new double[2];
 		latitude = Math.toRadians(latitude);
 		longitude = Math.toRadians(longitude);
@@ -76,33 +79,26 @@ public class Calculator
 	 * @param distance meter
 	 * @return tableau double
 	 */
-	protected static double[] positionRhumb(double latitude, double longitude, double angle, double distance) {
-		double δ = distance / R; // angular distance in radians
-	    double φ1 = Math.toRadians(latitude), λ1 = Math.toRadians(longitude);
-	    double θ = Math.toRadians(angle);
+	public static double[] positionRhumb(double latitude, double longitude, double angle, double distance) {
+		double delta = distance / R; // angular distance in radians
+	    double phi1 = Math.toRadians(latitude), lambda1 = Math.toRadians(longitude);
+	    double theta = Math.toRadians(angle);
 
-	    double Δφ = δ * Math.cos(θ);
-	    double φ2 = φ1 + Δφ;
+	    double DELTAphi = delta * Math.cos(theta);
+	    double phi2 = phi1 + DELTAphi;
 
 	    // check for some daft bugger going past the pole, normalise latitude if so
-	    if (Math.abs(φ2) > Math.PI/2) φ2 = φ2>0 ? Math.PI-φ2 : -Math.PI-φ2;
+	    if (Math.abs(phi2) > Math.PI/2) phi2 = phi2>0 ? Math.PI-phi2 : -Math.PI-phi2;
 
-	    double Δψ = Math.log(Math.tan(φ2/2+Math.PI/4)/Math.tan(φ1/2+Math.PI/4));
-	    double q = Math.abs(Δψ) > 10e-12 ? Δφ / Δψ : Math.cos(φ1); // E-W course becomes ill-conditioned with 0/0
+	    double DELTApsi = Math.log(Math.tan(phi2/2+Math.PI/4)/Math.tan(phi1/2+Math.PI/4));
+	    double q = Math.abs(DELTApsi) > 10e-12 ? DELTAphi / DELTApsi : Math.cos(phi1); // E-W course becomes ill-conditioned with 0/0
 
-	    double Δλ = δ*Math.sin(θ)/q;
-	    double λ2 = λ1 + Δλ;
+	    double DELTAlambda = delta*Math.sin(theta)/q;
+	    double lambda2 = lambda1 + DELTAlambda;
 
-	    return new double[]{Math.toDegrees(φ2), (Math.toDegrees(λ2)+540) % 360 - 180};
+	    return new double[]{Math.toDegrees(phi2), (Math.toDegrees(lambda2)+540) % 360 - 180};
 	}
 	
-	/*protected static int heading(double lat1, double lon1, double lat2, double lon2) {
-		double y = Math.sin(lon2-lon1) * Math.cos(lat2);
-		double x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1);
-		double brng = Math.toDegrees(Math.atan2(y, x));
-		return (int) brng;
-	}*/
-
 	/**
 	 * Calcule le cap entre 2 points gps
 	 * @param lat1
@@ -111,17 +107,17 @@ public class Calculator
 	 * @param lon2
 	 * @return int
 	 */
-	protected static int bearing(double lat1, double lon1, double lat2, double lon2) {
-		double φ1 = Math.toRadians(lat1), φ2 = Math.toRadians(lat2);
-	    double Δλ = Math.toRadians(lon2-lon1);
+	public static int bearing(double lat1, double lon1, double lat2, double lon2) {
+		double phi1 = Math.toRadians(lat1), phi2 = Math.toRadians(lat2);
+	    double DELTAlambda = Math.toRadians(lon2-lon1);
 	    // if dLon over 180° take shorter rhumb line across the anti-meridian:
-	    if (Math.abs(Δλ) > Math.PI) Δλ = Δλ>0 ? -(2*Math.PI-Δλ) : (2*Math.PI+Δλ);
+	    if (Math.abs(DELTAlambda) > Math.PI) DELTAlambda = DELTAlambda>0 ? -(2*Math.PI-DELTAlambda) : (2*Math.PI+DELTAlambda);
 
-	    double Δψ = Math.log(Math.tan(φ2/2+Math.PI/4)/Math.tan(φ1/2+Math.PI/4));
+	    double DELTApsi = Math.log(Math.tan(phi2/2+Math.PI/4)/Math.tan(phi1/2+Math.PI/4));
 
-	    double θ = Math.atan2(Δλ, Δψ);
+	    double theta = Math.atan2(DELTAlambda, DELTApsi);
 
-	    return (int) ((Math.toDegrees(θ)+360) % 360);
+	    return (int) ((Math.toDegrees(theta)+360) % 360);
 	}
 	
 	/**

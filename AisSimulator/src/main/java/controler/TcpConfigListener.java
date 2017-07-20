@@ -3,14 +3,12 @@ package controler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-
 import model.TCPClient;
 import view.OptionsFrame;
 import view.TCPConfigPanel;
 
 /**
- * Controleur listener ‡ l'Ècoute des actions utilisateur sur le panneau de configuration tcp
+ * Contr√¥leur listener √† l'√©coute des actions utilisateur sur le panneau de configuration tcp
  */
 public class TcpConfigListener implements ActionListener {
 
@@ -32,7 +30,7 @@ public class TcpConfigListener implements ActionListener {
 		if(e.getActionCommand().equals("Ok")) 
 			frame.setVisible(false);
 		else if(e.getActionCommand().equals("Test")) 
-			panel.setState(TCPClient.ping() ? "ConnectÈ" : "Echec de connexion");
+			panel.setState(TCPClient.ping() ? "Connect√©" : "Echec de connexion");
 	}
 
 }

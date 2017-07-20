@@ -5,6 +5,8 @@ package view;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  * Vue organisant l'affichage du formulaire complet
@@ -21,6 +23,8 @@ public class FormPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		add(pathPanel, BorderLayout.NORTH);
 		add(dataPanel, BorderLayout.CENTER);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setMinimumSize(new Dimension((int)(screenSize.getWidth()/10),(int)screenSize.getHeight()/4));
 	}
 	
 	public DataPanel getDataPanel() {
@@ -32,7 +36,7 @@ public class FormPanel extends JPanel {
 	}
 	
 	/**
-	 * Désactive la vue 
+	 * DÃ©sactive la vue 
 	 */
 	public void disable() {
 		dataPanel.disable();

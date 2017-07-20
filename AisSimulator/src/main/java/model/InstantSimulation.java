@@ -3,7 +3,7 @@ package model;
 import model.Calculator;
 
 /**
- * Modèle correspondant à un instant de simulation, soit l'ensemble des données à une seconde
+ * ModÃ¨le correspondant Ã  un instant de simulation, soit l'ensemble des donnÃ©es Ã  une seconde
  */
 public class InstantSimulation implements Cloneable {
 	
@@ -12,27 +12,27 @@ public class InstantSimulation implements Cloneable {
 	 */
 	private boolean end;
 	/**
-	 * indique si l'instant doit être omis/pris en compte
+	 * Indique si l'instant doit Ãªtre omis/pris en compte
 	 */
 	private boolean cut;
 	/**
-	 * indique si un message AIS peut être créé sur cet instant
+	 * Indique si un message AIS peut Ãªtre crÃ©Ã© sur cet instant
 	 */
 	private boolean sendable = true;
 	/**
-	 * indique si un bateau identique doit apparaitre/continuer à cet instant
+	 * Indique si un bateau identique doit apparaitre/continuer Ã  cet instant
 	 */
 	private boolean vesselSameID;
 	/**
-	 * indique i le bateau change de route/cap
+	 * Indique si le bateau change de route/cap
 	 */
 	private boolean changeRoute;
 	/**
-	 * indice de la prochaine étape dans le trajet path
+	 * Indice de la prochaine Ã©tape dans le trajet path
 	 */
 	private int nextStepID = 1;
 	/**
-	 * zone considérée dans laquelle le bateau atteint l'étape suivante
+	 * Zone considÃ©rÃ©e dans laquelle le bateau atteint l'Ã©tape suivante
 	 */
 	private double nextStepRadius;
 	
@@ -97,15 +97,19 @@ public class InstantSimulation implements Cloneable {
 	}
 	
 	/**
-	 * Calcule le rayon de la zone autour de l'étape suivante en fonction de la vitesse
-	 * Doit être mis à jour en cas de changement de vitesse
+	 * Calcule le rayon de la zone autour de l'Ã©tape suivante en fonction de la vitesse
+	 * Doit Ãªtre mis Ã  jour en cas de changement de vitesse
 	 */
 	public void computeNextStepRadius() {
 		nextStepRadius = (dynamicData.getSpeed()*1.0) / (2.0*3600.0);
 	}
 	
+	public double getNextStepRadius() {
+		return nextStepRadius;
+	}
+	
 	/**
-	 * Calcule les nouvelles coordonnées en fonction de l'instant précédent
+	 * Calcule les nouvelles coordonnÃ©es en fonction de l'instant prÃ©cÃ©dent
 	 */
 	private void computePosition() {
 		double distance = (Calculator.knot2Kmh(dynamicData.getSpeed()/10)/3600) * 1000;
@@ -115,9 +119,9 @@ public class InstantSimulation implements Cloneable {
 	}
 	
 	/**
-	 * Calcule du cap en fonction de la position et de l'étape suivante
-	 * La position doit au préalable être mise à jour
-	 * Détecte aussi si cet instant est le dernier sur le trajet
+	 * Calcule du cap en fonction de la position et de l'Ã©tape suivante
+	 * La position doit au prÃ©alable Ãªtre mise Ã  jour
+	 * DÃ©tecte aussi si cet instant est le dernier sur le trajet
 	 */
 	private void computeHeading() {
 		Coordinate c = dynamicData.getPosition();
@@ -140,6 +144,7 @@ public class InstantSimulation implements Cloneable {
 			dynamicData.setRot(0);
 			return;
 		}
+		System.out.println("changeroute");
 		int ROTsensor = simulation.computeROTsensor(simulation.getSize(), this);
 		int ROTais = (int) (Math.signum(ROTsensor) * Math.round(4.733 * Math.sqrt(Math.abs(ROTsensor))));
 		dynamicData.setRot(ROTais);
@@ -181,6 +186,14 @@ public class InstantSimulation implements Cloneable {
 		return "InstantSimulation [\n end=" + end + ", cut=" + cut + ", sendable=" + sendable + ", vesselSameID="
 				+ vesselSameID + ", changeRoute=" + changeRoute + ", nextStepID=" + nextStepID + ", nextStepRadius="
 				+ nextStepRadius + ",\n staticData=" + staticData + ",\n dynamicData=" + dynamicData + "\n]";
+	}
+	
+	/**
+	 * Retourne la chaine de caractÃ¨re utilisÃ©e pour la prÃ©visualisation
+	 * @return Texte au format html
+	 */
+	public String description() {
+		return dynamicData.description() + staticData.description();
 	}
 	
 }

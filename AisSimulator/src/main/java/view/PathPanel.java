@@ -38,12 +38,12 @@ public class PathPanel extends JPanel {
 	 */
 	public File getPathFile() {
 		File f = PopupManager.fileChooser("Selectionner un fichier trajet", "Fichiers csv.", "csv");
-		if(f != null) selectLbl.setText("Selectionné : "+f.getName());
+		if(f != null) selectLbl.setText("Selectionn\u00E9 : "+f.getName());
 		return f;
 	}
 	
 	/**
-	 * Désactive la modification de la vue
+	 * DÃ©sactive la modification de la vue
 	 */
 	public void disable() {
 		for(Component c : getComponents()) c.setEnabled(false);

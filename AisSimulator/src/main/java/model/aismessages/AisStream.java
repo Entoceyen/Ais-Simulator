@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+/**
+ * Modèle correspondant à un flux de messages AIS
+ */
 public class AisStream {
 
 	private ArrayList<String> aisMessages;
@@ -27,10 +30,20 @@ public class AisStream {
 		return aisMessages.size();
 	}
 	
-	public int getTimeStamp(String msg) {
-		return Integer.parseInt(msg.substring(4, msg.indexOf("*")));
+	/**
+	 * Retourne le timeStamp d'un message passé en paramètre
+	 * @param msg le message
+	 * @return long en millisecond
+	 */
+	public long getTimeStamp(String msg) {
+		return Long.parseLong(msg.substring(4, msg.indexOf("*")));
 	}
 	
+	/**
+	 * Créé un object File à partir du flux AIS
+	 * @return File
+	 * @throws IOException
+	 */
 	public File export() throws IOException {
 		File f = new File("aisMessage.log");
 		FileOutputStream fos = new FileOutputStream(f);

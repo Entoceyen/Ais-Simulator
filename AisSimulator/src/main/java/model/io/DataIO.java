@@ -11,14 +11,14 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 /**
- * Modèle permettant de lire et d'écrire les données statiques et dynamique d'un fichier
+ * ModÃ¨le permettant de lire et d'Ã©crire les donnÃ©es statiques et dynamique d'un fichier
  */
 public abstract class DataIO {
 	
 	/**
-	 * Lit dans un fichier les données statiques et dynamiques et les renvoie via une Map
-	 * @param f : File - le fichier
-	 * @return Map<String, String> : descrition : valeur
+	 * Lit dans un fichier les donnÃ©es statiques et dynamiques et les renvoie via une Map
+	 * @param f File le fichier
+	 * @return Map - descrition : valeur
 	 * @throws Exception
 	 */
 	public static HashMap<String,String> readDatas(File f) throws Exception {
@@ -37,8 +37,8 @@ public abstract class DataIO {
 	}
 	
 	/**
-	 * Ecrit dans un fichier les données passées en paramètre dans l'objet Map
-	 * @param Map<String,String> data
+	 * Ecrit dans un fichier les donnÃ©es passÃ©es en paramÃ¨tre dans l'objet Map
+	 * @param data HashMap
 	 * @return le fichier File
 	 * @throws Exception
 	 */
