@@ -25,7 +25,6 @@ public class DataPreviewPanel extends JPanel {
 	private JTextPane descriptionPane;
 	private String description = "";
 	private ScenariosRemoveListener scenarioRemoveListener;
-//	private int fontSize;
 	
 	public DataPreviewPanel(ScenariosRemoveListener scenarioRemoveListener) {
 		this.scenarioRemoveListener = scenarioRemoveListener;
@@ -58,13 +57,5 @@ public class DataPreviewPanel extends JPanel {
 			scenarioList.add(removeBtn);
 		}
 	}
-	
-//	@Override
-//	public void setFont(Font f) {
-//		super.setFont(f);
-//		fontSize = f.getSize();
-//		if(descriptionPane != null)
-//			descriptionPane.setText("<html><font size='"+fontSize+"'>"+description+"</font></html>");
-//	}
 	
 }

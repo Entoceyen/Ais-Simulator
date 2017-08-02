@@ -46,7 +46,7 @@ public abstract class AisMessageCreator {
 		String[] lines = Vdm.createSentences(message, 0);
 		int padBits = Integer.parseInt(lines[lines.length-1].split(",")[6].substring(0, 1));
 		message = readSentences(lines);
-		message.getVdm().setChannel(Calendar.getInstance().getTimeInMillis()%2 == 0 ? 'A':'B'); //On g�n�re A ou B selon la parit� de la milliseconde actuelle 
+		message.getVdm().setChannel(Calendar.getInstance().getTimeInMillis()%2 == 0 ? 'A':'B'); //On génère A ou B selon la parité de la milliseconde actuelle 
 		message.getVdm().setPadBits(padBits);
 		return createSentencesWithVdm(message);
 	}
@@ -68,13 +68,13 @@ public abstract class AisMessageCreator {
 		String[] lines = Vdm.createSentences(message, 0);
 		int padBits = Integer.parseInt(lines[lines.length-1].split(",")[6].substring(0, 1));
 		message = readSentences(lines);
-		message.getVdm().setChannel(Calendar.getInstance().getTimeInMillis()%2 == 0 ? 'A':'B'); //On g�n�re A ou B selon la parit� de la milliseconde actuelle 
+		message.getVdm().setChannel(Calendar.getInstance().getTimeInMillis()%2 == 0 ? 'A':'B'); //On gérère A ou B selon la parité de la milliseconde actuelle 
 		message.getVdm().setPadBits(padBits);
 		return createSentencesWithVdm(message);
 	}
 	
 	/**
-	 * Fonction permettant la création des phrases NMEA correspondant à un message AIS pass� en paramètre.
+	 * Fonction permettant la création des phrases NMEA correspondant à un message AIS passé en paramètre.
 	 * Utilise le Vdm compris dans le message.
 	 * @param msg Objet de la classe AisMessage (AisLib)
 	 * @return Un tableau des phrases NMEA générées pour le message msg

@@ -48,7 +48,8 @@ public class PopupManager {
 		int res = saver.showSaveDialog(null);
 		 
 		if (res == JFileChooser.APPROVE_OPTION) {
-			File newFile = new File(saver.getCurrentDirectory().getAbsolutePath()+"/"+file.getName());
+			String name = saver.getSelectedFile().getName();
+			File newFile = new File(saver.getCurrentDirectory().getAbsolutePath()+"/"+name);
 			try {
 				Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {

@@ -3,7 +3,7 @@ package model.scenario;
 import model.Simulation;
 
 /**
- * Modèle principal à l'ensemble des modèles sc�nario.
+ * Modèle principal à l'ensemble des modèles scénario.
  */
 public abstract class Scenario {
 
@@ -11,30 +11,26 @@ public abstract class Scenario {
 	 * Enuméation de l'ensemble des scénarios. Est utilisé dans la vue ScenarioPanel
 	 */
 	public static enum Scenarios { 
-		BadMIDScenario("Faux MID",BadMIDScenario.class), 
-		BadPositionScenario("Position erronée",BadPositionScenario.class), 
-		ChangeDataScenario("Modification d'une donnée",ChangeDataScenario.class), 
-		ChangeSpeedScenario("Changement de vitesse",ChangeSpeedScenario.class), 
-		DeAisScenario("DéAIS",DeAisScenario.class), 
-		GhostScenario("AIS off",GhostScenario.class), 
-		PathOnGroundScenario("Trajet à terre",PathOnGroundScenario.class), 
-		TeleportScenario("Positions successives incohérentes",TeleportScenario.class), 
-		VesselSameIDScenario("Navire même MMSI",VesselSameIDScenario.class);
+		BadMIDScenario("Faux MID"), 
+		BadPositionScenario("Position erronée"), 
+		ChangeDataScenario("Modification d'une donnée"), 
+		ChangeSpeedScenario("Changement de vitesse"), 
+		DeAisScenario("DéAIS"), 
+		GhostScenario("AIS off"), 
+		PathOnGroundScenario("Trajet à terre"), 
+		TeleportScenario("Positions successives incohérentes"), 
+		VesselSameIDScenario("Navire même MMSI");
 		
 		private String label;
-		private Class<? extends Scenario> type;
 		
-		Scenarios(String lbl, Class<? extends Scenario> type) {
+		Scenarios(String lbl) {
 			label = lbl;
-			this.type = type;
 		}
 		
 		public String getLabel() {
 			return label;
 		}
-		public Class<? extends Scenario> getType() {
-			return (Class<? extends Scenario>) type;
-		}
+
 		public static Scenarios getScenariosByLabel(String lbl) {
 			for(Scenarios s : Scenarios.values()) 
 				if(s.label.equals(lbl)) return s;

@@ -1,11 +1,11 @@
 package model.scenario;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 
 import model.Path;
 import model.io.PathIO;
+import view.PopupManager;
 
 /**
  * Modèle scénario permettant de choisir un trajet passant à terre dans une liste de trajet
@@ -22,7 +22,7 @@ public class PathOnGroundScenario extends ChangePathScenario {
 		try {
 			pathsOnGround = loadPathsOnGround();
 		} catch (Exception e) {
-			e.printStackTrace();
+			PopupManager.errorMessage("Lecture des fichiers", e.toString());
 		}
 	}
 
@@ -37,8 +37,9 @@ public class PathOnGroundScenario extends ChangePathScenario {
 	 */
 	private static ArrayList<Path> loadPathsOnGround() throws Exception {
 		ArrayList<Path> paths = new ArrayList<Path>();
-		URL url = ClassLoader.getSystemResource("pathOnGround");
-		File rep = new File(url.toURI());
+		File rep;
+		try { rep = new File(PathOnGroundScenario.class.getResource("/resources/pathOnGround").toURI()); }
+		catch(NullPointerException e) { rep = new File(ClassLoader.getSystemResource("pathOnGround").toURI()); }
 		File[] pathFiles = rep.listFiles();
 		for(File f : pathFiles)	paths.add(PathIO.readPath(f));
 		return paths;

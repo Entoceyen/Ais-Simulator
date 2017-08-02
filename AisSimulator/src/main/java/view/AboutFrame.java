@@ -31,6 +31,12 @@ public class AboutFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private ImagePanel imgPanel;
+	private String appName = "SIMULATEUR DéAIS";
+	private String version = "v1.0";
+	private String date = "07.2017";
+	private String enterprise = "Cerema Eau Mer Fleuves";
+	private String autor = "Nicolas BERNARD";
+	private String partner = "Partenaire : Ecole Navale";
 
 	public AboutFrame(ImageIcon img) {
 		setUndecorated(true);
@@ -58,7 +64,7 @@ public class AboutFrame extends JFrame {
 		infoPanel.setBackground(Color.WHITE);
 		infoPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		final JLabel lblSimulateurDais = new JLabel("SIMULATEUR DéAIS");
+		final JLabel lblSimulateurDais = new JLabel(appName);
 		lblSimulateurDais.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -71,22 +77,22 @@ public class AboutFrame extends JFrame {
 		lblSimulateurDais.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(lblSimulateurDais);
 		
-		JLabel lblV = new JLabel("v1.0    07.2017");
+		JLabel lblV = new JLabel(version+"    "+date);
 		lblV.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(lblV);
 		
 		JLabel lblCrdit = new JLabel("");
 		infoPanel.add(lblCrdit);
 		
-		JLabel lblCeremaEauMer = new JLabel("Cerema Eau Mer Fleuves");
+		JLabel lblCeremaEauMer = new JLabel(enterprise);
 		lblCeremaEauMer.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(lblCeremaEauMer);
 		
-		JLabel lblNicolasBernard = new JLabel("Nicolas BERNARD");
+		JLabel lblNicolasBernard = new JLabel(autor);
 		lblNicolasBernard.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(lblNicolasBernard);
 		
-		JLabel lblNewLabel = new JLabel("Partenaire : Ecole Navale");
+		JLabel lblNewLabel = new JLabel(partner);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(lblNewLabel);
 		

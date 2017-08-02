@@ -197,7 +197,7 @@ public class StaticData implements Cloneable {
 	}
 	
 	/**
-	 * Retourne la chaine de caract�re utilis�e pour la pr�visualisation
+	 * Retourne la chaine de caractère utilisée pour la prévisualisation
 	 * @return Texte au format html
 	 */
 	public String description() {

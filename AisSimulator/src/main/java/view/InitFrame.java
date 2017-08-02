@@ -15,6 +15,8 @@ import com.sun.awt.AWTUtilities.Translucency;
 public class InitFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
+	private ImagePanel imgPanel;
+	
 	public InitFrame(ImageIcon img) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = img.getIconWidth();
@@ -24,13 +26,13 @@ public class InitFrame extends JFrame {
 		setBounds(xpos, ypos, width, height);
 		
 		setUndecorated(true);
-		ImagePanel panel = new ImagePanel(img.getImage());
-		setContentPane(panel);
+		imgPanel = new ImagePanel(img.getImage());
+		setContentPane(imgPanel);
 		
 		try {
-			// On v�rifie d'abord la pr�sence de la classe AWTUtilities :
+			// On vérifie d'abord la pr�sence de la classe AWTUtilities :
 			Class.forName("com.sun.awt.AWTUtilities");
-			// On v�rifie que le syst�me permettent ces effets :
+			// On vérifie que le système permettent ces effets :
 			if ( AWTUtilities.isTranslucencySupported(Translucency.PERPIXEL_TRANSLUCENT) && 
 					AWTUtilities.isTranslucencyCapable(getGraphicsConfiguration()) ) {
 				// Puis on rend la fenêtre non-opaque :

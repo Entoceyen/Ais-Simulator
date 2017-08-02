@@ -18,7 +18,7 @@ import controler.AisStreamListener;
 public class AisPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private JButton computeBtn;
+	private JButton delayBtn;
 	private JButton exportBtn;
 	private JButton runBtn;
 	private JButton stopBtn;
@@ -28,12 +28,12 @@ public class AisPanel extends JPanel {
 		setBorder(border);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setMinimumSize(new Dimension((int)(screenSize.getWidth()/10),(int)screenSize.getHeight()/4));
-		computeBtn = new JButton("Modifier fréquence d'émission");
+		delayBtn = new JButton("Modifier fréquence d'émission");
 		exportBtn = new JButton("Exporter fichier");
 		runBtn = new JButton("Jouer simulation temps r\u00E9el");
 		stopBtn = new JButton("Arrêter simulation");
-		computeBtn.addActionListener(listener);
-		computeBtn.setName("ManualDelayMessage");
+		delayBtn.addActionListener(listener);
+		delayBtn.setName("ManualDelayMessage");
 		exportBtn.addActionListener(listener);
 		exportBtn.setName("Export");
 		runBtn.addActionListener(listener);
@@ -41,7 +41,7 @@ public class AisPanel extends JPanel {
 		stopBtn.addActionListener(listener);
 		stopBtn.setName("Stop");
 		stopBtn.setVisible(false);
-		add(computeBtn);
+		add(delayBtn);
 		add(exportBtn);
 		add(runBtn);
 		add(stopBtn);
@@ -51,7 +51,7 @@ public class AisPanel extends JPanel {
 	/**
 	 * Permet de sauvegarder un fichier
 	 * @param f File
-	 * @return true si le fichier a \u00E9t\u00E9 sauvegard\u00E9, false sinon
+	 * @return true si le fichier a été sauvegardé, false sinon
 	 */
 	public boolean saveDataFile(File f) {
 		return PopupManager.fileSaver("Enregistrer sous", f);

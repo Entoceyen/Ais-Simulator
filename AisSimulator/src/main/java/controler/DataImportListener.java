@@ -191,7 +191,7 @@ public class DataImportListener extends DataManager implements ActionListener {
 					}
 				}
 			} catch (NumberFormatException nbfe) {
-				error += "Erreur dans le contenu du fichier : un nombre est attendu pour le champ "+name+". '"+value+"' trouv�\n";
+				error += "Erreur dans le contenu du fichier : un nombre est attendu pour le champ "+name+". '"+value+"' trouvé\n";
 				continue;
 			}
 		}

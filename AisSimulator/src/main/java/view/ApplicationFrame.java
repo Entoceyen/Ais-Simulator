@@ -29,24 +29,22 @@ public class ApplicationFrame extends JFrame {
 	
 	private Application application;
 	private JMenuBar menuBar;
+	private FormPanel formPanel;
+	private TimedSimulationPanel timedSimuPanel;
+	private DataPreviewPanel previewPanel;
+	private ScenariosPanel scenarPanel;
+	private AisPanel aisPanel;
 	
-	public ApplicationFrame(InitFrame initFrame, AboutFrame aboutFrame, FormPanel formPanel, TimedSimulationPanel timedSimuPanel, DataPreviewPanel previewPanel, ScenariosPanel scenarPanel, AisPanel aisPanel, Application appli) {
+	public ApplicationFrame(FormPanel formPanel, TimedSimulationPanel timedSimuPanel, DataPreviewPanel previewPanel, ScenariosPanel scenarPanel, AisPanel aisPanel, Application appli) {
 		this.application = appli;
+		this.formPanel = formPanel;
+		this.timedSimuPanel = timedSimuPanel;
+		this.previewPanel = previewPanel;
+		this.scenarPanel = scenarPanel;
+		this.aisPanel = aisPanel;
+		
 		setTitle("Simulateur DéAIS");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		
-		JSplitPane splitPaneLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		splitPaneLeft.setLeftComponent(formPanel);
-		splitPaneLeft.setRightComponent(previewPanel);
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(scenarPanel, BorderLayout.CENTER);
-		panel.add(aisPanel, BorderLayout.SOUTH);
-		JSplitPane splitPaneRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		splitPaneRight.setLeftComponent(splitPaneLeft);
-		splitPaneRight.setRightComponent(panel);
-		getContentPane().add(splitPaneRight, BorderLayout.CENTER);
-		getContentPane().add(timedSimuPanel, BorderLayout.SOUTH);
-		
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = screenSize.width;
@@ -62,57 +60,49 @@ public class ApplicationFrame extends JFrame {
             }
         });
 		
-		// TODO menu à propos & crédit
-	    JMenu m = new JMenu("Menu");
+		build();
+		buildMenu();
+	    
+	    try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+	    application.getInitFrame().setVisible(false);
+		setVisible(true);
+	}
+	
+	private void build() {
+		JSplitPane splitPaneLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPaneLeft.setLeftComponent(formPanel);
+		splitPaneLeft.setRightComponent(previewPanel);
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(scenarPanel, BorderLayout.CENTER);
+		panel.add(aisPanel, BorderLayout.SOUTH);
+		JSplitPane splitPaneRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPaneRight.setLeftComponent(splitPaneLeft);
+		splitPaneRight.setRightComponent(panel);
+		getContentPane().add(splitPaneRight, BorderLayout.CENTER);
+		getContentPane().add(timedSimuPanel, BorderLayout.SOUTH);
+	}
+	
+	private void buildMenu() {
+		JMenu m = new JMenu("Menu");
 	    JMenuItem itemNew = new JMenuItem("Nouveau");
-	    itemNew.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				Application.main(null);
-			}
-		});
+	    itemNew.addActionListener(actionNew());
 	    JMenuItem itemOption = new JMenuItem("Options");
-	    itemOption.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				application.getOptionsFrame().displayOptionsPanel();
-			}
-		});
+	    itemOption.addActionListener(actionOption());
 	    JMenuItem itemTcp = new JMenuItem("Configurer connexion TCP");
-	    itemTcp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				application.getOptionsFrame().displayTcpPanel();
-			}
-		});
+	    itemTcp.addActionListener(actionTcp());
 	    m.add(itemNew);
 	    m.add(itemOption);
 	    m.add(itemTcp);
 	    
 	    JMenu m1 = new JMenu("Aide");
 	    JMenuItem itemAbout = new JMenuItem("A propos");
-	    itemAbout.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				application.getAboutFrame().setVisible(true);
-			}
-		});
+	    itemAbout.addActionListener(actionAbout());
 	    JMenuItem itemDoc = new JMenuItem("Documentation");
-	    itemDoc.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(Desktop.isDesktopSupported()){
-					if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)){
-						URI uri;
-						try {
-							uri = new URI("file:///C:/Users/Nicolas%20BERNARD/Documents/AIS%20Simulateur/javadoc/index.html");
-							Desktop.getDesktop().browse(uri);
-						} catch (Exception e1) {}
-					}
-				}
-			}
-		});
+	    itemDoc.addActionListener(actionDoc());
 	    m1.add(itemDoc);
 	    m1.add(itemAbout);
 	    
@@ -120,14 +110,60 @@ public class ApplicationFrame extends JFrame {
 	    menuBar.add(m);
 	    menuBar.add(m1);
 	    setJMenuBar(menuBar);
-	    
-	    try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-	    initFrame.setVisible(false);
-		setVisible(true);
+	}
+	
+	private ActionListener actionNew() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Application.main(null);
+			}
+		};
+	}
+	
+	private ActionListener actionOption() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				application.getOptionsFrame().displayOptionsPanel();
+			}
+		};
+	}
+	
+	private ActionListener actionTcp() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				application.getOptionsFrame().displayTcpPanel();
+			}
+		};
+	}
+	
+	private ActionListener actionAbout() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				application.getAboutFrame().setVisible(true);
+			}
+		};
+	}
+	
+	private ActionListener actionDoc() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(Desktop.isDesktopSupported()){
+					if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)){
+						URI uri;
+						try {
+							uri = new URI("https://github.com/Entoceyen/Ais-Simulator/blob/master/Documentation%20utilisateur.pdf");
+							Desktop.getDesktop().browse(uri);
+						} catch (Exception e1) {}
+					}
+				}
+			}
+		};
 	}
 	
 	/**

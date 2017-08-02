@@ -35,7 +35,7 @@ public class TimedSimulationListener implements ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		int instant = ((JSlider)e.getSource()).getValue();
-		previewPanel.setDescription("Temps : "+instant+simulation.getInstant(instant).description());
+		previewPanel.setDescription("Temps : "+instant+ " s" +simulation.getInstant(instant).description());
 		ArrayList<Scenario> list = new ArrayList<Scenario>();
 		for(Scenario s : simulation.getScenarios())
 			if(s.getStartTime() <= instant && instant <= s.getStartTime()+s.getDuration())

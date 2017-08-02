@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -21,13 +22,16 @@ public class Application {
 	private ApplicationFrame applicationFrame;
 	private OptionsFrame optionsFrame;
 	private AboutFrame aboutFrame;
+	private InitFrame initFrame;
 	
 	/**
 	 * Constructeur initialisant et démarrant l'application
 	 * Créé l'ensemble des vues et des controleurs et les associe
 	 */
 	public Application() {
-		ImageIcon img = new ImageIcon("deais_icone1.png");
+		ImageIcon img;
+		try { img = new ImageIcon(getClass().getResource("/resources/deais_icone.png")); }
+		catch(NullPointerException e) { img = new ImageIcon(ClassLoader.getSystemResource("deais_icone.png")); }
 		font = new Font("Tahoma",Font.PLAIN,15);;
 		Simulation simulation = new Simulation();
 		
@@ -83,12 +87,12 @@ public class Application {
 		TCPConfigPanel tcpPanel = new TCPConfigPanel(tcpListener);
 		tcpListener.setPanel(tcpPanel);
 		
-		InitFrame initFrame = new InitFrame(img);
+		initFrame = new InitFrame(img);
 		aboutFrame = new AboutFrame(img);
 		optionsFrame = new OptionsFrame(optionsPanel, tcpPanel, this);
 		optionsListener.setFrame(optionsFrame);
 		tcpListener.setFrame(optionsFrame);
-		applicationFrame = new ApplicationFrame(initFrame, aboutFrame, formPanel, timedSimuPanel, previewPanel, scenariosPanel, aisPanel, this);
+		applicationFrame = new ApplicationFrame(formPanel, timedSimuPanel, previewPanel, scenariosPanel, aisPanel, this);
 		applicationFrame.setIconImage(img.getImage());
 		setFont(font.getSize());
 		optionsPanel.setFontSize();
@@ -133,6 +137,10 @@ public class Application {
 	
 	public AboutFrame getAboutFrame() {
 		return aboutFrame;
+	}
+	
+	public InitFrame getInitFrame() {
+		return initFrame;
 	}
 	
 	/**

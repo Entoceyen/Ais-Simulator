@@ -37,7 +37,7 @@ public class Simulation {
 	
 	/**
 	 * Calcule les instants à partir du numéro n en prennant en compte les scénarios
-	 * Utilise la fonction basiCompute
+	 * Utilise la fonction basicCompute
 	 * @param n : intant n
 	 */
 	public void compute(int n) {
@@ -274,7 +274,7 @@ public class Simulation {
 	 * Calcule pour un instant à la position (seconde) id le ROTsensor
 	 * @param id seconde relative à la simulation correspondant à un InstantSimulation
 	 * @param instant InstantSimulation
-	 * @return int de -708 � 708�
+	 * @return int de -708 à 708°
 	 */
 	protected int computeROTsensor(int id, InstantSimulation instant) {
 		int ROTsensor = 0;

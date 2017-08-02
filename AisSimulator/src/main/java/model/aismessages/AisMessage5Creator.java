@@ -7,7 +7,7 @@ import model.StaticData;
 /**
  * Modèle de création d'un message AIS de type 5
  */
-public class AisMessage5Creator {
+public abstract class AisMessage5Creator {
 	
 	/**
 	 * Fonction permettant de créer un message AisMessage5 à partir des données statiques

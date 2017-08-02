@@ -3,9 +3,9 @@ mmsi;222222222
 destination;brest
 imo;0
 dimPort;2
-callSign;@@@@@@@
+callSign;7654321
 posType;1
-speed;110
+speed;60
 navStat;15
 specialManIndicator;1
 dimStern;5
@@ -15,4 +15,4 @@ aisVersion;0
 name;nom
 shipType;36
 dimBow;10
-posAcc;1
+posAcc;0

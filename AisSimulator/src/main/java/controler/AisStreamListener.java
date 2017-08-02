@@ -48,14 +48,13 @@ public class AisStreamListener implements ActionListener {
 		}
 		
 		/*---Calcule du flux AIS---*/
-		if(simulation.getAisStream() == null) 
-			try {
-				simulation.setAisStream(computeAisStream());
-			} catch (Exception e1) {
-				PopupManager.errorMessage("Calcul du flux AIS", e1.getMessage());
-			}
+		try {
+			simulation.setAisStream(computeAisStream());
+		} catch (Exception e1) {
+			PopupManager.errorMessage("Calcul du flux AIS", e1.getMessage());
+		}
 		
-		/*---Exporte le flux AIS sous forme d'un fichier log timestamp�---*/
+		/*---Exporte le flux AIS sous forme d'un fichier log timestampé---*/
 		if(((JButton)e.getSource()).getName().equals("Export")) {
 			File file = null;
 			try { file = simulation.getAisStream().export(); } 
@@ -65,7 +64,7 @@ public class AisStreamListener implements ActionListener {
 			return;
 		}
 		
-		/*---D�marre la simulation temps r�elle sur serveur TCP---*/
+		/*---D�marre la simulation temps réelle sur serveur TCP---*/
 		if(((JButton)e.getSource()).getName().equals("Run")) {
 			sender = new MessageSender(simulation.getAisStream());
 			sender.start();
@@ -74,7 +73,7 @@ public class AisStreamListener implements ActionListener {
 			return;
 		}
 		
-		/*---Stop la simulation temps r�elle sur serveur TCP---*/
+		/*---Stop la simulation temps réelle sur serveur TCP---*/
 		if(((JButton)e.getSource()).getName().equals("Stop")) {
 			System.out.println("stop");
 			sender.cancel();
@@ -94,42 +93,41 @@ public class AisStreamListener implements ActionListener {
 		int time = 0, msg5Delay = 0, msg1Delay = 0, x = 0;
 		AisStream stream = new AisStream();
 		
-		/*---Pr�paration de l'heure de d�part et calcule de l'ETA---*/
+		/*---Préparation de l'heure de départ et calcule de l'ETA---*/
 		if(simulation.getStartTime() == null) simulation.setStartTime(Calendar.getInstance());
 		simulation.etaEncoder();
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(simulation.getStartTime().getTimeInMillis());
 		
-		/*---R�cup�ration du sc�nario de changement de fr�quence d'�mission---*/
+		/*---Récupération du scénario de changement de fréquence d'émission---*/
 		ChangeDelayMessageScenario changeDelayScenario = simulation.getChangeDelayScenario();
 		
-		/*---Parcours des instants de la simulation et cr�ation du flux---*/
+		/*---Parcours des instants de la simulation et création du flux---*/
 		for(int i=0 ; i<simulation.getSize() ; i++) {
 			
-			/*---Condition des scenarios AIS off et position successives incoh�rentes---*/
+			/*---Condition des scenarios AIS off et position successives incohérentes---*/
 			if(simulation.getInstant(i).isCut()) continue;
 			if(!simulation.getInstant(i).isSendable()) { time++; continue; }
 			
-			/*---Calcule du tagBlock timestamp�---*/
+			/*---Calcule du tagBlock timestampé---*/
 			String tagBlock = AisMessageCreator.createTagBlockMs(c);
 			
-			/*---Condition d'�mission du message 5---*/
+			/*---Condition d'émission du message 5---*/
 			if(msg5Delay == 0 || !simulation.getInstant(i).getStaticData().equals(simulation.getInstant(i-1).getStaticData())) {
 				String[] msg5 = AisMessageCreator.create(5, simulation, time, i);
 				for(String msg : msg5) stream.addMessage(tagBlock+msg);
-				if(changeDelayScenario != null && changeDelayScenario.isDelayMessage5()) {
-					System.out.println("delay 5");
+				if(changeDelayScenario != null && changeDelayScenario.isDelayMessage5())
 					msg5Delay = changeDelayScenario.getDelayMessage5()*1000;
-				} else msg5Delay = 360000;
+				else msg5Delay = 360000;
 			}
 			
-			/*---Condition d'�mission du message 1---*/
+			/*---Condition d'émission du message 1---*/
 			TimeIntervalCondition condition = getTimeIntervalCondition(i);
 			if(msg1Delay < 1000 || condition != getTimeIntervalCondition(i-1)) {
-				/*---Ajout du d�calage de timestamp lors de la fr�quence de 3 1/3 s---*/
+				/*---Ajout du décalage de timestamp lors de la fr�quence de 3 1/3 s---*/
 				if(msg1Delay == 333) {
 					x++;
-					int d = x*333; // d�calage 0.333 > 0.666 > 0.999
+					int d = x*333; // décalage 0.333 > 0.666 > 0.999
 					if(d == 999) { x = -1; time++; msg5Delay -= 1000; continue; }
 					Calendar c1 = (Calendar) c.clone();
 					c1.add(Calendar.MILLISECOND, d);
@@ -139,19 +137,18 @@ public class AisStreamListener implements ActionListener {
 				/*---Calcul du message 1---*/
 				String[] msg1 = AisMessageCreator.create(1, simulation, time, i);
 				for(String msg : msg1) stream.addMessage(tagBlock+msg);
-				if(changeDelayScenario != null && changeDelayScenario.isDelayMessage1()) {
-					System.out.println("delay 1");
+				if(changeDelayScenario != null && changeDelayScenario.isDelayMessage1())
 					msg1Delay = changeDelayScenario.getDelayMessage1()*1000;
-				} else msg1Delay = condition.getInterval();
+				else msg1Delay = condition.getInterval();
 			
-				/*---Condition du sc�nario Navire m�me MMSI---*/
+				/*---Condition du scénario Navire même MMSI---*/
 				if(simulation.getInstant(i).isVesselSameID()) {
 					AisMessageCreator.create(VesselSameIDScenario.getDynData(), simulation.getInstant(i).getStaticData().getMmsi());
 					for(String msg : msg1) stream.addMessage(tagBlock+msg);
 				}
 			}
 			
-			/*---D�cr�mentation des d�lais des message et incr�mentation du temps---*/
+			/*---Décrémentation des délais des message et incrémentation du temps---*/
 			msg5Delay -= 1000;
 			msg1Delay -= 1000;
 			time++;
