@@ -20,15 +20,15 @@ public class TCPClient {
 	public static void sendMessage(String line) throws UnknownHostException, IOException {
 		Socket clientSocket = new Socket(address, port);
 		// connexion transpondeur
-//		PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
-//		pw.println(line);
-//		pw.close();
+		PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
+		pw.println(line);
+		pw.close();
 		// connexion hercules
-		DataOutputStream os = new DataOutputStream(clientSocket.getOutputStream());
-		os.write((line+"\n").getBytes());
-		os.flush();
+//		DataOutputStream os = new DataOutputStream(clientSocket.getOutputStream());
+//		os.write((line+"\n").getBytes());
+//		os.flush();
 		clientSocket.close();
-		os.close();
+//		os.close();
 	}
 	
 	/**

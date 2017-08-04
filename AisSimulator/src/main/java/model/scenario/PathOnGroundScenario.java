@@ -1,8 +1,12 @@
 package model.scenario;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import model.Coordinate;
 import model.Path;
 import model.io.PathIO;
 import view.PopupManager;
@@ -38,10 +42,34 @@ public class PathOnGroundScenario extends ChangePathScenario {
 	private static ArrayList<Path> loadPathsOnGround() throws Exception {
 		ArrayList<Path> paths = new ArrayList<Path>();
 		File rep;
-		try { rep = new File(PathOnGroundScenario.class.getResource("/resources/pathOnGround").toURI()); }
-		catch(NullPointerException e) { rep = new File(ClassLoader.getSystemResource("pathOnGround").toURI()); }
-		File[] pathFiles = rep.listFiles();
-		for(File f : pathFiles)	paths.add(PathIO.readPath(f));
+		InputStream is;
+		BufferedReader br;
+		try { 
+			is = PathOnGroundScenario.class.getResourceAsStream("/resources/pathOnGround"); 
+			br = new BufferedReader(new InputStreamReader(is));
+			int i = 0;
+			while (br.lines().toArray().length != i) {
+				InputStream is1 = PathOnGroundScenario.class.getResourceAsStream("/resources/pathOnGround/"+(String)br.lines().toArray()[i]);
+				BufferedReader br1 = new BufferedReader(new InputStreamReader(is1));
+				String l = null;
+				Path p = new Path();
+				while ((l = br.readLine()) != null) {
+					String[] parts = l.split(";");
+					Coordinate c = new Coordinate(
+							Double.parseDouble(parts[0]),
+							Double.parseDouble(parts[1]));
+					p.addStep(c);
+				}
+				br1.close();
+				paths.add(p);
+				i++;
+			}
+		} catch(NullPointerException e) {
+			rep = new File(ClassLoader.getSystemResource("pathOnGround").toURI());
+			File[] pathFiles = rep.listFiles();
+			for(File f : pathFiles)	paths.add(PathIO.readPath(f));
+		}
+		
 		return paths;
 	}
 	

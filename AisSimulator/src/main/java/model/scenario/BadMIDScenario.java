@@ -2,13 +2,15 @@ package model.scenario;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+
+import view.PopupManager;
 
 /**
  * Modèle scénario générant un mauvais code pays (MID)
@@ -36,7 +38,7 @@ public class BadMIDScenario extends Scenario {
 		try {
 			codesMID = loadMIDFile();
 		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+			PopupManager.errorMessage("Lecture du fichier", e.toString());
 		}
 	}
 	
@@ -87,9 +89,16 @@ public class BadMIDScenario extends Scenario {
 	 */
 	private static ArrayList<Integer> loadMIDFile() throws IOException, URISyntaxException {
 		ArrayList<Integer> mids = new ArrayList<Integer>();
-		URL url = ClassLoader.getSystemResource("codesMID.log");
-		FileInputStream fis = new FileInputStream(new File(url.toURI()));
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+		InputStream is;
+		File file;
+		BufferedReader br;
+		try { 
+			is = BadMIDScenario.class.getResourceAsStream("/resources/codesMID.log"); 
+			br = new BufferedReader(new InputStreamReader(is));
+		} catch(NullPointerException e) { 
+			file = new File(ClassLoader.getSystemResource("codesMID.log").toURI());
+			br = new BufferedReader(new FileReader(file));
+		}
 	 
 		String line = null;
 		while ((line = br.readLine()) != null) {
